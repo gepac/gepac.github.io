@@ -2,6 +2,7 @@
 layout: page
 title: Sobre
 subtitle: Quem? Por quê? Para quê?
+permalink: /about.html
 ---
 
 TODO
