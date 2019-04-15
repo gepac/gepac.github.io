@@ -24,7 +24,7 @@ description: Grupo de Estudos de Computação Aplicada à Ciência
 # List of links in the navigation bar
 navbar-links:
   Home: ""
-  Sobre: "about.html"
+  Sobre: "sobre"
   Calendário: "calendar"
   Contato: "contato"
 
