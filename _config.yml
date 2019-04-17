@@ -26,6 +26,7 @@ navbar-links:
   Home: ""
   Sobre: "about.html"
   Calendário: "calendar"
+  Contato: "contato"
 
 # Image to show in the navigation bar - image must be a square (width = height)
 # Remove this parameter if you don't want an image in the navbar
@@ -187,6 +188,7 @@ exclude:
 plugins:
   - jekyll-paginate
   - jekyll-sitemap
+  - jemoji
 
 # Beautiful Jekyll / Dean Attali
 # 2fc73a3a967e97599c9763d05e564189
