@@ -1,0 +1,28 @@
+/*
+ * imagem fica maior quando colocar o mouse em cima
+ */
+.frescurinhas img {
+	width: 3.3em;
+	transition: width .666s;
+}
+
+.frescurinhas:hover img {
+	width: 4em;
+}
+
+.frescurinhas h4 {
+	color: #404040;
+	transition: color .666s;
+}
+
+.frescurinhas:hover h4 {
+	color: tomato;
+}
+
+.frescurinhas p {
+	transition: text-shadow .666s;
+}
+
+.frescurinhas:hover p {
+	text-shadow: 1px 1px 2.5px grey;
+}
