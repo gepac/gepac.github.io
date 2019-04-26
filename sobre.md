@@ -23,28 +23,13 @@ IFSC, com supervisão do
 
 Atualmente, o grupo é administrado pelos seguintes membros:
 
-{%- assign metade = site.pessoas.size | divided_by: 2 %}
-{{ metade }}
-
 <div class="row">
 <div class="col-md-6 col-sm-6">
 {% for manolo in site.pessoas limit:metade %}
-	{%- if manolo.link -%}
-		{%- assign manolink = manolo.link -%}
-	{%- else -%}
-		{%- assign manolink = "#" -%}
-	{%- endif -%}
-
-	{%- if manolo.photo != "" -%}
-		{%- assign manophoto = manolo.photo -%}
-	{%- else -%}
-		{%- assign manophoto = "ninguem.jpg" -%}
-	{%- endif -%}
-
 	<div class="media frescurinhas">
 		<div class="pull-right ">
-			<a href="{{ manolink }}">
-				<img class="media-object img-circle" src="/pessoas/{{ manophoto }}" alt="{{ manolo.name | append: " é supimpa :)" }}">
+			<a href="{{ manolo.link | default: "#" }}">
+				<img class="media-object img-circle" src="/pessoas/{{ manolo.photo | default: "ninguem.jpg" }}" alt="{{ manolo.name | append: " é supimpa :)" }}">
 			</a>
 		</div>
 		<div class="media-body">
@@ -59,22 +44,10 @@ Atualmente, o grupo é administrado pelos seguintes membros:
 
 <div class="col-md-6 col-sm-6">
 {%- for manolo in site.pessoas offset:metade -%}
-	{%- if manolo.link -%}
-		{%- assign manolink = manolo.link -%}
-	{%- else -%}
-		{%- assign manolink = "#" -%}
-	{%- endif -%}
-
-	{%- if manolo.photo != "" -%}
-		{%- assign manophoto = manolo.photo -%}
-	{%- else -%}
-		{%- assign manophoto = "ninguem.jpg" -%}
-	{%- endif -%}
-
 	<div class="media frescurinhas">
 		<div class="pull-left">
-			<a href="{{ manolink }}">
-				<img class="media-object img-circle" src="/pessoas/{{ manophoto }}" alt="{{ manolo.name | append: " é supimpa :)" }}">
+			<a href="{{ manolo.link | default: "#" }}">
+				<img class="media-object img-circle" src="/pessoas/{{ manolo.photo | default: "ninguem.jpg" }}" alt="{{ manolo.name | append: " é supimpa :)" }}">
 			</a>
 		</div>
 		<div class="media-body">
