@@ -1,8 +1,7 @@
 ---
 name: Russo
-photo: ""
-link: ""
+photo: "russinho.jpg"
+link: "mailto:lf.santos@usp.br"
 ---
 
-Blá blá balá balá blá blé
-Paraná é a Russia brasileira.
+Não sou da fiscomp mas gosto de fis e comp. Também gosto de café. Não pense nO Jogo.
