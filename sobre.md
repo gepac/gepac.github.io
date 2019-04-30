@@ -23,6 +23,8 @@ IFSC, com supervisão do
 
 Atualmente, o grupo é administrado pelos seguintes membros:
 
+{% assign metade = site.pessoas.size | divided_by: 2 %}
+
 <div class="row">
 <div class="col-md-6 col-sm-6">
 {% for manolo in site.pessoas limit:metade %}
