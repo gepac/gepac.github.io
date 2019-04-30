@@ -24,7 +24,7 @@ description: Grupo de Estudos de Computação Aplicada à Ciência
 # List of links in the navigation bar
 navbar-links:
   Home: ""
-  Sobre: "about.html"
+  Sobre: "sobre"
   Calendário: "calendar"
   Contato: "contato"
 
@@ -155,6 +155,10 @@ plugins:
   - jekyll-paginate
   - jekyll-sitemap
   - jemoji
+
+
+collections:
+   - pessoas
 
 # Beautiful Jekyll / Dean Attali
 # 2fc73a3a967e97599c9763d05e564189
