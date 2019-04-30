@@ -1,6 +1,6 @@
 ---
-name: Arex
-photo: ""
+name: "Alex Prestes (Arex)"
+photo: "arex.jpg"
 link: ""
 ---
 
