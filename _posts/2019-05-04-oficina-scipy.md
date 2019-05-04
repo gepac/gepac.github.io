@@ -5,7 +5,9 @@ title: >-
 ---
 
 O GEPAC realizará, nos dias 17, 24 e 31 (sextas-feiras) de maio, uma oficina
-sobre NumPy, SciPy e matplotlib, gratuita e aberta a toda a comunidade IFSC.
+sobre [NumPy](https://www.numpy.org), [SciPy](https://www.scipy.org) e
+[matplotlib](https://matplotlib.org), gratuita e aberta a toda a comunidade
+IFSC.
 
 SciPy e NumPy são bibliotecas Python que reúnem ferramentas para cientistas,
 tanto de simulação como tratamento de dados, baseadas em estruturas de dados
@@ -18,8 +20,9 @@ transformadas de Fourier e ajuste de parâmetros a dados experimentais --- e
 dar-lhes autonomia para usá-las em tarefas mais complexas.
 
 A oficina será dada em três aulas, de 12h51 a 13h57, no laboratório 206 do
-LEF. Para participar, é preciso [manifestar interesse pelo link](https://forms.gle/3x3aC3JxmKKG8bAk8)
-até o dia 15/05. As vagas são limitadas.
+LEF. Para participar, é preciso [manifestar interesse por este
+link](https://forms.gle/3x3aC3JxmKKG8bAk8) até o dia 15/05. As vagas são
+limitadas.
 
 A oficina será estruturada como a seguir:
 
