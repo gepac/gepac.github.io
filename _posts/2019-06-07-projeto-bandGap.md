@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Cálculo de Band-gap com Python
+tags: [python, projeto]
 ---
 
 ## Introdução
@@ -15,7 +16,8 @@ O programa irá ler arquivos de texto gerados pelo espectrômetro, contendo o
 comprimento de onda emitido e a absorbância do material e, usando um método bem
 conhecido na física e engenhaira de materiais, fazer o plot de
 [Tauc](https://en.wikipedia.org/wiki/Tauc_plot) e obter automáticamente a
-energia de _Band-gap_ do material através dele.
+energia de _Band-gap_ (ou _banda proibida_, em português) do material através
+dele.
 
 O foco do projeto será na aplicação das bibliotecas e não no desenvolvimeto de
 um programa completo, de modo que a parte física será apenas usada como
