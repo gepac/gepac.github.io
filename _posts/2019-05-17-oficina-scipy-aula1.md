@@ -5,6 +5,7 @@ title: >-
 excerpt: >-
     Nesta primeira aula, abordamos criação e manipulação de arrays com NumPy
     e um pouco de matplotlib para produção de gráficos.
+tags: [python, oficina]
 ---
 
 ## Introdução ao NumPy
