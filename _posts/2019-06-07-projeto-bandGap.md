@@ -51,7 +51,7 @@ Python 3. Para ter uma maior familiaridade com elas, acesse nosso material:
 - Oficina de bibliotecas Python: parte 3 - EM CONSTRUÇÃO
 
 *Estão disponíveis
-[aqui](https://github.com/gepac/gepac.github.io/tree/master/img/data) alguns
+[aqui](https://github.com/gepac/gepac.github.io/tree/master/img/projeto-bandgap-2019/data) alguns
 dados de espectroscopia para serem usados no projeto.*
 
 ## Teoria
@@ -61,9 +61,9 @@ engenheiros.  Dos transistores dentro de seu computador aos LEDs e células
 solares, as propriedades dos semicondutores vêm sendo amplamente aproveitadas e
 se tornaram cruciais no desenvolvimento da ciência e tecnologia.
 
-![foto que nao tem descrição do que é](/img/projeto-bandgap-2019/forno.jpg)
+![foto](/img/projeto-bandgap-2019/forno.jpg)
 
-- WTF? Fonte: http://www.ifsc.usp.br/naca/facilities/
+- Imagem: fornalhas para tratamento térmico de materiais Fonte: http://www.ifsc.usp.br/naca/facilities/
 
 Aqui mesmo no [IFSC](https://www.ifsc.usp.br/) temos vários grupos de pesquisa
 trabalhando com eles:
@@ -127,36 +127,34 @@ $$(\alpha h \nu)^n = \beta (h \nu - E_g)$$
 
 Parece uma fórmula bem complicada, mas repare:
 
-- O parâmetro $$\alpha$$ vem da [Lei de
-  Beer-Lambert](http://www.ufrgs.br/leo/site_espec/conceito.html), e com um pouco
-  de manipulação chegamos à:
+O parâmetro $$\alpha$$ vem da [Lei de
+Beer-Lambert](http://www.ufrgs.br/leo/site_espec/conceito.html), e com um pouco
+de manipulação chegamos à:
 
   $$\alpha = 2.303 A / L$$
 
-  Onde $$A$$ é nossa conhecida *absorbância* e $$L$$ vem do *tamanho da amostra*.
-  Quando vamos fazer a espectroscopia de um material, ele é feito em pó e
-  misturado com água dentro de um [recipiente
-  padrão](https://en.wikipedia.org/wiki/Cuvette), que tem um tamanho bem definido
-  $$L = 1 cm$$:
+Onde $$A$$ é nossa conhecida *absorbância* e $$L$$ vem do *tamanho da amostra*.
+Quando vamos fazer a espectroscopia de um material, ele é feito em pó e
+misturado com água dentro de um [recipiente
+padrão](https://en.wikipedia.org/wiki/Cuvette), que tem um tamanho bem definido
+$$L = 1 cm$$:
 
   ![couvette](https://upload.wikimedia.org/wikipedia/commons/0/00/2_sizes_of_cuvette.jpg)
 
-  - WTF? Fonte: https://en.wikipedia.org/wiki/Cuvette#/media/File:2_sizes_of_cuvette.jpg
+  - Imagem: recipiente padrão "couvette" de quartzo Fonte: https://en.wikipedia.org/wiki/Cuvette#/media/File:2_sizes_of_cuvette.jpg
 
-  Assim ficamos com:
+Assim ficamos com:
 
-  $$\alpha = 2.303 A (cm^{-1})$$
+$$\alpha = 2.303 A (cm^{-1})$$
 
-- O $$n$$ está relacionado com a [transição](https://www.youtube.com/watch?v=x3LOTaEVLak) do elétron entre as bandas. Ele só pode assumir o valor de $$2$$ ou $$1/2$$ e é dado dependendo do material.
+O $$n$$ está relacionado com a [transição](https://www.youtube.com/watch?v=x3LOTaEVLak) do elétron entre as bandas. Ele só pode assumir o valor de $$2$$ ou $$1/2$$ e é dado dependendo do material.
 
-- Em relação à $$h \nu$$, vimos anteriormente que corresponde à energia do
-  fóton, sendo $$h ≃ 6.63*10^{-34} J.s$$, podemos escrevê-la como:
+Em relação à $$h \nu$$, vimos anteriormente que corresponde à energia do
+fóton, sendo $$h ≃ 6.63*10^{-34} J.s$$, podemos escrevê-la como:
 
-  $$E ≃ 1240/\lambda (eVnm)$$
+$$E ≃ 1240/\lambda (eVnm)$$
 
-- $$\beta$$ é simplesmente uma constante, não se preocupe com ela.
-
-- $$E_g$$
+$$\beta$$ é simplesmente uma constante, não se preocupe com ela.
 
 Repare que quando $$h\nu = E_g$$, então $$(\alpha h\nu)^n = 0$$.
 
