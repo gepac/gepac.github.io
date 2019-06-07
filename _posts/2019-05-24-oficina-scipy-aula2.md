@@ -5,6 +5,7 @@ excerpt: >-
     Nesta segunda aula, avançamos um pouco mais no matplotlib e começamos a
     usar o SciPy. Discutimos o ajuste de parâmetros de curvas com o método
     dos mínimos quadrados.
+tags: [python, oficina]
 ---
 
 ## Um pouco de matplotlib (continuação)

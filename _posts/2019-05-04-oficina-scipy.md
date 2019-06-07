@@ -2,6 +2,7 @@
 layout: post
 title: >-
     Oficina: NumPy, SciPy e matplotlib
+tags: [python, oficina]
 ---
 
 O GEPAC realizará, nos dias 17, 24 e 31 (sextas-feiras) de maio, uma oficina
