@@ -17,11 +17,11 @@ resultando na conhecida equação diferencial de segunda ordem:
 
 $$ \frac{d^2\theta}{dt^2} = -\frac{g}{\ell}\sin\theta.$$
 
-Em princípio, como dispomos de equação diferencial que descreve o nosso modelo, seríamos capazes de, dadas as condicões inciais, calcular o comportamento futuro do pêndulo. Infelizmente, a não-linearidade introduzida pelo \(sin\(theta do lado direito da equação impede que sejam usados os métodos conhecidos de solução de equações diferenciais.
+Em princípio, como dispomos de equação diferencial que descreve o nosso modelo, seríamos capazes de, dadas as condicões inciais, calcular o comportamento futuro do pêndulo. Infelizmente, a não-linearidade introduzida pelo $$\sin\theta$$ do lado direito da equação impede que sejam usados os métodos conhecidos de solução de equações diferenciais.
 
 ### Linearização
 
-A saída tradicional para esse dilema é usar um método perturbativo e nos preocuparmos apenas com variações pequenas em torno de um ponto conhecido. No caso expandimos em torno do ponto de equilíbrio \(theta=0 e consideramos que o ângulo \(theta é pequeno, portanto podemos aproximar
+A saída tradicional para esse dilema é usar um método perturbativo e nos preocuparmos apenas com variações pequenas em torno de um ponto conhecido. No caso expandimos em torno do ponto de equilíbrio $$\theta=0$$ e consideramos que o ângulo $$\theta$$ é pequeno, portanto podemos aproximar
 
 $$\sin\theta \approx \theta,$$
 
@@ -29,13 +29,13 @@ o que pode ser entendido lembrando a expansão de Taylor do seno em torno do ân
 
 $$\sin\theta = \theta - \frac{\theta^3}{3!} +  \frac{\theta^5}{5!} + \cdots,$$
 
-onde vemos que para \(theta pequeno (próximo de zero) os termos não lineares podem ser desprezados.
+onde vemos que para $$\theta$$ pequeno (próximo de zero) os termos não lineares podem ser desprezados.
 
 Outra forma de ver isto é através de um gráfico.
 
-Para isso, importaremos as bibliotecas Numpy e Matplotlib e iremos variar \(theta de 0 a 20 graus a cada 0.2 graus, transformando em radianos no final. 
+Para isso, importaremos as bibliotecas Numpy e Matplotlib e iremos variar $$\theta$$ de 0 a 20 graus a cada 0.2 graus, transformando em radianos no final. 
 
-Com este dado, criamos uma função linear de \(theta no eixo x e de seu valor em radianos no eixo y. Agora, temos que comparar com seu valor de seno e para isso utilizamos uma segunda função ainda com \(theta no eixo x e de \(sin\(theta no eixo y.
+Com este dado, criamos uma função linear de $$\theta$$ no eixo x e de seu valor em radianos no eixo y. Agora, temos que comparar com seu valor de seno e para isso utilizamos uma segunda função ainda com $$\theta$$ no eixo x e de $$\sin\theta$$ no eixo y.
 
 ~~~ python
 import numpy as np
@@ -53,7 +53,7 @@ plt.legend(handles=[pl_linear, pl_sin])
 plt.show()
 ~~~
 
-Podemos ver que para ângulos pequenos (menores que 10°) há pouca diferença entre \(sin\(theta e \(theta.
+Podemos ver que para ângulos pequenos (menores que 10°) há pouca diferença entre $$\sin\theta$$ e $$\theta$$.
 
 A equação aproximada fica então
 
@@ -63,7 +63,7 @@ que é uma equação linear e pode ser resolvida por métodos tradicionais, resu
 
 $$\theta(t) = \theta_0\cos(\omega_0 t - \phi),$$
 
-onde \(theta_0 é o ângulo inicial, $$\omega_0 = \sqrt{g/\ell}$$ é a denominada frequência angular natural do pêndulo e \(phi depende da velocidade inicial do pêndulo (pode ser encontrado de $$v_0 = \theta_0\sqrt{g\ell}\sin\phi$$).
+onde $$\theta_0$$ é o ângulo inicial, $$\omega_0 = \sqrt{g/\ell}$$ é a denominada frequência angular natural do pêndulo e $$\phi$$ depende da velocidade inicial do pêndulo (pode ser encontrado de $$v_0 = \theta_0\sqrt{g\ell}\sin\phi$$).
 
 Fixando alguns parâmetros do pêndulo
 
@@ -87,7 +87,7 @@ def timing(ncycles, T, n_per_cycle = 100):
 
 ## Parte 2: Pêndulo simples (regime não-linear)
 
-A questão agora é a seguinte: O que acontece se o ângulo \(theta não é necessariamente pequeno? Neste caso, não temos uma solução exata, mas podemos usar o mesmo método para a solução numérica. Voltando à esquação original,
+A questão agora é a seguinte: O que acontece se o ângulo $$\theta$$ não é necessariamente pequeno? Neste caso, não temos uma solução exata, mas podemos usar o mesmo método para a solução numérica. Voltando à esquação original,
 
 $$\frac{d^2\theta}{dt^2} = - \frac{g}{\ell}\sin\theta,$$
 
@@ -111,6 +111,8 @@ Com o qual podemos montar a solução usando SciPy.
 def simple_nonlinear_pendulum(xy, t, g, ℓ):
     x, y = xy
     return y, -g/ℓ * np.sin(x)
+
+from scipy.integrate import odeint
 
 def simulate_simple_nonlinear_pendulum(θ0, tmax, nintervals, g, ℓ):
     θ0_rad = np.deg2rad(θ0)
@@ -143,7 +145,7 @@ tmax, nintervals, _ = timing(ncycles, T0)
 compare_nonlinearity(5.0, tmax, nintervals, g, ℓ)
 ~~~
 
-Note como para \(theta_0 pequeno não se vê diferença entre o sistema não-linear e o linear. Vejamos agora com um ângulo inicial maior.
+Note como para $$\theta_0$$ pequeno não se vê diferença entre o sistema não-linear e o linear. Vejamos agora com um ângulo inicial maior.
 
 ~~~ python
 compare_nonlinearity(25.0, tmax, nintervals, g, ℓ)
@@ -169,7 +171,7 @@ Vemos que o modelo linear, como esperado, é completamente inadequado para descr
 
 ## Parte 3: Força externa
 
-Vamos agora acrescentar um novo elemento: uma força externa atuando sobre o sistema. Para termos um comportamento mais interessante, essa força externa terá um formato senoidal com frequência angular \(omega_F e amplitude $$f$$ dadas, isto é, terá a forma $$ f\sin(\omega_F t)$$.
+Vamos agora acrescentar um novo elemento: uma força externa atuando sobre o sistema. Para termos um comportamento mais interessante, essa força externa terá um formato senoidal com frequência angular $$\omega_F$$ e amplitude $$f$$ dadas, isto é, terá a forma $$ f\sin(\omega_F t)$$.
 
 Nosso sistema fica então:
 
@@ -204,8 +206,6 @@ q = 0.5
 Tf = 2 * np.pi / ωf
 ncycles = 10
 tmax, nintervals, _ = timing(ncycles, Tf)
-
-def forced_dissipative_nonlinear_pendulum(xy, t, g, ℓ, q, f, ωf):
 
 f = 0.01
 t, xy = simulate_forced(θ0, tmax, nintervals, g, ℓ, q, f, ωf)
@@ -250,7 +250,7 @@ Note como a diferença entre as trajetórias decai rapidamente. Na verdade, usam
 
 $$ | \Delta\theta | \approx e^{\lambda t}, $$
 
-onde \(lambda é negativo neste caso.
+onde $$\lambda$$ é negativo neste caso.
 
 Agora vejamos o que acontece para $$f=1.2$$. (Para mostrar melhor o comportamento, começamos com um valor bem menor de diferença nos ângulos iniciais.)
 
@@ -279,7 +279,7 @@ Vemos que neste caso o comportamento é oposto: a diferença entre as trajetóri
 
 $$ |\Delta\theta| \approx e^{\lambda t}, $$
 
-mas agora o coeficiente \(lambda é **positivo**! Isto significa que **qualquer pequena diferença nas condições inciais será amplificada rapidamente**, resultando em que o comportamento do sistema é na prática impossível de prever, visto que não é possível uma precisão perfeita na determinação das condições iniciais. Esta é uma característica dos sistemas denominados **caóticos**.
+mas agora o coeficiente $$\lambda$$ é **positivo**! Isto significa que **qualquer pequena diferença nas condições inciais será amplificada rapidamente**, resultando em que o comportamento do sistema é na prática impossível de prever, visto que não é possível uma precisão perfeita na determinação das condições iniciais. Esta é uma característica dos sistemas denominados **caóticos**.
 
 ## Parte 5: Seção de Poincaré
 
