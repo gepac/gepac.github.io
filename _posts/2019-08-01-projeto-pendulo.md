@@ -279,13 +279,13 @@ Vemos que neste caso o comportamento é oposto: a diferença entre as trajetóri
 
 $$ |\Delta\theta| \approx e^{\lambda t}, $$
 
-mas agora o coeficiente $$\lambda$$ é **positivo**! Isto significa que **qualquer pequena diferença nas condições inciais será amplificada rapidamente**, resultando em que o comportamento do sistema é na prática impossível de prever, visto que não é possível uma precisão perfeita na determinação das condições iniciais. Esta é uma característica dos sistemas denominados **caóticos**.
+mas agora o coeficiente $$\lambda$$ é *positivo*! Isto significa que *qualquer pequena diferença nas condições inciais será amplificada rapidamente*, resultando em que o comportamento do sistema é na prática impossível de prever, visto que não é possível uma precisão perfeita na determinação das condições iniciais. Esta é uma característica dos sistemas denominados *caóticos*.
 
 ## Parte 5: Seção de Poincaré
 
 Uma técnica útil na análise de sistemas dinâmicos é a denominada *seção de Poincaré*, ou *mapa de Poincaré*, que é essencialmente a interseção de uma trajetória no espaço de fase com um espaço de menor dimensão (um subespaço) específico.
 
-O subespaço a escolher depende do sistema e da análise desejada. No nosso caso, vamos plotar apenas os pontos que correspondem a instantes que satisfazem a relação $$\omega_F t = 2n\pi$$ onde $$n$$ é um inteiro. Isto é, estamos plotando apenas os pontos onde a trajetória está em fase com a força externa aplicada. Devido às aproximações numéricas, devemos na verdade plotar um ponto se ele satisfizer $$|t - 2n\pi/\omega_F| < \Delta t/2$$ para algum valor de $$\Delta t$$ apropriado. No nosso caso, usaremos para $$\Delta t$$ o valor do intervalo entre amostras no sistema simulado, visto que não há precisão temporal maior do que essa em nossos resultados.
+O subespaço a escolher depende do sistema e da análise desejada. No nosso caso, vamos plotar apenas os pontos que correspondem a instantes que satisfazem a relação $$\omega_F t = 2n\pi$$ onde $$n$$ é um inteiro. Isto é, estamos plotando apenas os pontos onde a trajetória está em fase com a força externa aplicada. Devido às aproximações numéricas, devemos na verdade plotar um ponto se ele satisfizer $$\|t - 2n\pi/\omega_F\| < \Delta t/2$$ para algum valor de $$\Delta t$$ apropriado. No nosso caso, usaremos para $$\Delta t$$ o valor do intervalo entre amostras no sistema simulado, visto que não há precisão temporal maior do que essa em nossos resultados.
 
 Vamos fazer uma função que dado um array de valores de tempo, o tempo de ciclo e a precisão de tempo $$\Delta t$$ seleciona todos os índices (retornando um vetor de booleanos) que estão sincronizados com o ciclo de acordo com a expressão acima:
 
@@ -336,7 +336,7 @@ plt.plot(traj[selected], xy[selected, 1], '.', markersize=3, alpha=0.3)
 plt.show()
 ~~~
 
-Note como o formato ficou o mesmo. Quer dizer, apesar de toda a característica caótica do sistema, ele é atraído a uma região específica do espaço de estado, denominado um **atrator**. A estrutura dos atratores no regime caótico é bastante complexa, tendo dimensionalidades fracionárias (o número de dimensões do espaço do atrator não é um número inteiro), e portanto são denominados **fractais**; os atratores fractais são denominados de **atratores estranhos**.
+Note como o formato ficou o mesmo. Quer dizer, apesar de toda a característica caótica do sistema, ele é atraído a uma região específica do espaço de estado, denominado um *atrator*. A estrutura dos atratores no regime caótico é bastante complexa, tendo dimensionalidades fracionárias (o número de dimensões do espaço do atrator não é um número inteiro), e portanto são denominados *fractais*; os atratores fractais são denominados de *atratores estranhos*.
 
 ## Parte 6: Duplicação de período
 
@@ -371,10 +371,10 @@ plt.tight_layout()
 
 Note que para $$f=1.065$$, no regime estacionário a oscilação tem um período igual ao da força externa (no caso dos parâmetros usados, $$T_F = 3\pi$$).
 
-Já para $$f=1.075$$, os picos oscilam alternadamente de altura, o que significa que o período de repetição é dobrado. Para $$f=1.082$$ temos 4 picos de valores diferentes antes da repetição, o que implica um período quadruplicado em relação ao original. Para $$f=1.0826$$ temos 8 picos distintos, apesar de isso ser muito difícil de enxergar na figura. Esse processo de duplicação se repete indefinidamente, com intevalos entre os valores de $$f$$ para a duplicação cada vez menores, até que chegamos no regime caótico. Essa **duplicação de período** é típica em vários sistemas caóticos.
+Já para $$f=1.075$$, os picos oscilam alternadamente de altura, o que significa que o período de repetição é dobrado. Para $$f=1.082$$ temos 4 picos de valores diferentes antes da repetição, o que implica um período quadruplicado em relação ao original. Para $$f=1.0826$$ temos 8 picos distintos, apesar de isso ser muito difícil de enxergar na figura. Esse processo de duplicação se repete indefinidamente, com intevalos entre os valores de $$f$$ para a duplicação cada vez menores, até que chegamos no regime caótico. Essa *duplicação de período* é típica em vários sistemas caóticos.
 ### Diagrama de bifurcação
 
-Uma forma tradicional de analisar o processo de duplicação de período na transição para o caos é através da construção de um **diagrama de bifurcação** para analisarmos os pontos onde a duplicação de período ocorre.
+Uma forma tradicional de analisar o processo de duplicação de período na transição para o caos é através da construção de um *diagrama de bifurcação* para analisarmos os pontos onde a duplicação de período ocorre.
 
 Para o nosso sistema usamos a mesma técnica da seção de Poincaré para extrair os pontos em fase com força externa e plotamos, para cada valor de $$f$$, todos os valores encontrados nesses pontos dentro do regime estacionário.
 
