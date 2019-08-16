@@ -159,6 +159,8 @@ def resolveSistema(K, M):
 ~~~python
 opcao = int(input("Escolher modo (1) ou todos os modos (0): "))
 
+phi, omega = resolveSistema(K, M)
+
 if opcao:
     while True:
         k = int(input("Digite um valor inteiro: "))
