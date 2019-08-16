@@ -35,7 +35,7 @@ $$K\Phi = \omega^{2}M\Phi$$
 
 $$\rho\frac{d^{2}u_{ij}}{dt^{2}} - \sigma\frac{u_{i+1,j}+u_{i-1,j}+u_{i,j+1}+u_{i,j-1}-4u_{ij}}{\delta^{2}} = 0$$
 
-![Malha discretizando a membranda](/img/projeto-membrana-2019/malha.jpg)
+![Malha de discretizando da membranda](/img/projeto-membranas-2019/malha.png)
 
 #### Bibliotecas usadas
 ~~~python
@@ -128,18 +128,21 @@ rho = float(input("rho: "))
 K, M = MatMembrane(Nx, Ny, rho, sigma, delta, mascara(Nx, Ny))
 ~~~
 #### Resolvendo o sistema e obtendo os Autovalores e Autovetores
-:::info
+
 ~~~python
 [D, V] = scipy.linalg.eig(A, B)
 A*V = D*B*V
 ~~~
+- Funcionamento da função de eig do scipy
+
 A = matriz (NxNy x NxNy)
 B = matriz (NxNy x NxNy)
 D = autovalores (NxNy)
 V = autovetores (NxNy x NxNy)
-:::
+
 $$AV = DBV$$
 $$K\Phi = \omega^{2}M\Phi$$
+
 ~~~python
 def resolveSistema(K, M):
     omega2, phi = la.eig(K, M)
