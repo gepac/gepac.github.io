@@ -120,12 +120,12 @@ def mascara(Nx, Ny):
 ~~~python
 Nx = int(input("Nx: "))
 Ny = int(input("Ny: "))
-Lx = 1.
-delta = Lx/(Nx-1)
 sigma = float(input("sigma: "))
 rho = float(input("rho: "))
+Lx = 1.
+delta = Lx/(Nx-1)
 
-K, M = MatMembrane(Nx, Ny, rho, sigma, delta, mascara(Nx, Ny))
+K, M = buildKM(Nx, Ny, rho, sigma, delta, mascara(Nx, Ny))
 ~~~
 #### Resolvendo o sistema e obtendo os Autovalores e Autovetores
 
