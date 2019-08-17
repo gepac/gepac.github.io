@@ -1,15 +1,13 @@
 ---
 layout: post
-title: >-
-    Oscilações membranas: Solução numérica
-excerpt: >-
-    Com esse projeto temos o objetivo de mostrar o funcionamento da discretização finita para uma EDP parabólica e homogênea
+title: Oscilações membranas: Solução numérica
+excerpt: Com esse projeto temos o objetivo de mostrar o funcionamento da discretização finita para uma EDP parabólica e homogênea
 tags: [python, projeto]
 ---
 
 # Solução numérica para ondas estacionárias em membranas
 
-# Introdução
+### Introdução
 
 Nem sempre é necessário ou possível obter a solução exata de um determinado sistema, para esses problemas usamos modelagem e simulações para obter soluções numéricas.
 
@@ -21,7 +19,7 @@ $$\nabla^2 u = \frac{1}{v^2}\frac{\partial^2 u}{\partial t^2}$$
 
 $$\rho\frac{\partial^2 u}{\partial t^2} - \sigma\nabla^2 u = 0$$
 
-Para a forma matricial usaremos $K = - \sigma\nabla^2$ para a modelagem:
+Para a forma matricial usaremos $$K = -\sigma\nabla^2$$ para a modelagem:
 
 $$MU''+KU = 0$$
 
@@ -46,6 +44,7 @@ from mpl_toolkits import mplot3d
 ~~~
 
 #### Cria o índice global
+O índice global será o que dará a forma da base do sistema. A escolha para ser desse jeito é por pura conveniência, já que o método reshape do numpy "desfaz" esse modo.
 ~~~python
 def ij2n(i,j,Nx):
     return(i + j*Nx)
@@ -81,7 +80,7 @@ def buildKM(Nx, Ny, rho, sigma, delta, mascara):
         for j in range(Ny):
             Ic=ij2n(i,j,Nx)
 
-            if masc[i, j]:
+            if mascara[i, j]:
                 K[Ic,:]=0.
                 K[:,Ic]=0.
                 K[Ic,Ic]=1e9
@@ -91,8 +90,10 @@ def buildKM(Nx, Ny, rho, sigma, delta, mascara):
     return(K, M)
 ~~~
 #### Montagem da máscara da membrana
+
+A máscara é uma matriz com zeros e uns para facilitar na construção da forma da membrana, onde os zeros são posições onde a membrana tem liberdade para mudar de posição e os uns posições que serão travadas
 ~~~python
-def mascara(Nx, Ny):
+def mask(Nx, Ny):
     Mk = np.zeros( (Nx,Ny), np.int )
     
     # Define um raio que tem 40% do menor lado da malha
@@ -116,6 +117,34 @@ def mascara(Nx, Ny):
 
     return Mk
 ~~~
+#### Como resolver o sistema e obtendo os Autovalores e Autovetores
+
+~~~python
+[D, V] = scipy.linalg.eig(a, b)
+a*V = D*b*V
+~~~
+- Funcionamento da função de eig do scipy
+
+a = matriz (NxNy x NxNy)
+b = matriz (NxNy x NxNy)
+D = autovalores (NxNy)
+V = autovetores (NxNy x NxNy)
+
+$$aV = DbV$$
+$$K\Phi = \omega^{2}M\Phi$$
+
+~~~python
+def solve(K, M):
+    omega2, phi = la.eig(K, M)
+    
+    # Ordena os resultados
+    idx = np.argsort(omega2)
+    omega2 = omega2[idx]
+    phi = phi[:,idx]
+    omega = np.sqrt(omega2)
+    
+    return(phi.real, omega.real)
+~~~
 #### Atribuindo valores
 ~~~python
 Nx = int(input("Nx: "))
@@ -125,77 +154,18 @@ rho = float(input("rho: "))
 Lx = 1.
 delta = Lx/(Nx-1)
 
-K, M = buildKM(Nx, Ny, rho, sigma, delta, mascara(Nx, Ny))
-~~~
-#### Resolvendo o sistema e obtendo os Autovalores e Autovetores
+K, M = buildKM(Nx, Ny, rho, sigma, delta, mask(Nx, Ny))
 
-~~~python
-[D, V] = scipy.linalg.eig(A, B)
-A*V = D*B*V
-~~~
-- Funcionamento da função de eig do scipy
-
-A = matriz (NxNy x NxNy)
-B = matriz (NxNy x NxNy)
-D = autovalores (NxNy)
-V = autovetores (NxNy x NxNy)
-
-$$AV = DBV$$
-$$K\Phi = \omega^{2}M\Phi$$
-
-~~~python
-def resolveSistema(K, M):
-    omega2, phi = la.eig(K, M)
-    
-    # Ordena os resultados
-    idx = np.argsort(omega2)
-    omega2 = omega2[idx]
-    phi = phi[:,idx]
-    omega = np.sqrt(omega2)
-    
-    return(phi, omega)
+phi, omega = solve(K, M)
 ~~~
 #### Visualização dos dados
 ~~~python
-opcao = int(input("Escolher modo (1) ou todos os modos (0): "))
-
-phi, omega = resolveSistema(K, M)
-
-if opcao:
-    while True:
-        k = int(input("Digite um valor inteiro: "))
-        Z = phi[:, k].reshape(Nx, Ny)
-        
-
-        zlim = np.max(np.abs(Z))*1.02
-
-        x = range(Nx)
-        y = range(Ny)
-
-        X, Y = np.meshgrid(x, y)
-
-        fig = plt.figure(dpi=200)
-        ax = plt.axes(projection='3d')
-
-        ax.set_xlabel('x')
-        ax.set_ylabel('y')
-        ax.set_zlabel('z')
-        ax.set_xlim(0, Nx-1)
-        ax.set_ylim(0, Ny-1)
-        ax.set_zlim(-zlim, zlim)
-        plt.tight_layout()
-        plt.ion()
-
-        for i in np.linspace(0, 1, 1000):
-            ax.clear()
-            ax.set_zlim(-zlim, zlim)
-            ax.plot_surface(X, Y, Z*np.sin(omega[k]*i), cmap="binary")
-            plt.show()
-            plt.pause(0.00001)
-else:
-    k = 0
+while True:
+    k = int(input("Digite o indice do modo: "))
+    ciclos = float(input("Digite o número de ciclos: "))
     Z = phi[:, k].reshape(Nx, Ny)
     
+    dt = (ciclos*2*np.pi)/omega[k]
 
     zlim = np.max(np.abs(Z))*1.02
 
@@ -216,11 +186,10 @@ else:
     plt.tight_layout()
     plt.ion()
 
-    for k in range(Nx*Ny):
-        Z = phi[:, k].reshape(Nx, Ny)
+    for i in np.linspace(0, dt, 20):
         ax.clear()
         ax.set_zlim(-zlim, zlim)
-        ax.plot_surface(X, Y, Z, cmap="binary")
+        ax.plot_surface(X, Y, Z*np.sin(omega[k]*i), cmap="binary")
         plt.show()
-        plt.pause(0.00001)
+        plt.pause(0.001)
 ~~~
