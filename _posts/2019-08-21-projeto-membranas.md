@@ -5,7 +5,7 @@ excerpt: Com esse projeto temos o objetivo de mostrar o funcionamento da discret
 tags: [python, projeto]
 ---
 
-# Solução numérica para ondas estacionárias em membranas
+## Solução numérica para ondas estacionárias em membranas
 
 ### Introdução
 
@@ -39,7 +39,7 @@ $$\rho\frac{d^{2}u_{ij}}{dt^{2}} - \sigma\frac{u_{i+1,j}+u_{i-1,j}+u_{i,j+1}+u_{
 
 ![forma matricial da equação](/img/projeto-membranas-2019/calcmatriz.png)
 
-#### Bibliotecas usadas
+### Bibliotecas usadas
 ~~~python
 import numpy as np
 import scipy.linalg as la
@@ -47,14 +47,14 @@ import matplotlib.pyplot as plt
 from mpl_toolkits import mplot3d
 ~~~
 
-#### Cria o índice global
+### Cria o índice global
 O índice global será o que dará a forma da base do sistema. A escolha para ser desse jeito é por pura conveniência, já que o método reshape do numpy "desfaz" essa forma de indexar.
 ~~~python
 def ij2n(i,j,Nx):
     return(i + j*Nx)
 ~~~
 
-#### Construção das matrizes K e M
+### Construção das matrizes K e M
 Na construção das matrizes K e M irei considerar rho e sigma constantes, mas poderia passar uma função com poucas modificações
 ~~~python
 def buildKM(Nx, Ny, rho, sigma, delta, mask):
@@ -94,7 +94,7 @@ def buildKM(Nx, Ny, rho, sigma, delta, mask):
 
     return(K, M)
 ~~~
-#### Montagem da máscara da membrana
+### Montagem da máscara da membrana
 
 A máscara é uma matriz com zeros e uns para facilitar na construção da forma da membrana, onde os uns são posições onde a membrana tem liberdade para mudar de posição e os zeros posições que serão travadas
 ~~~python
@@ -122,7 +122,7 @@ def mask(Nx, Ny):
 
     return Mk
 ~~~
-#### Como resolver o sistema e obtendo os Autovalores e Autovetores
+### Como resolver o sistema e obtendo os Autovalores e Autovetores
 
 Funcionamento da função de eig do scipy
 
@@ -151,7 +151,7 @@ def solve(K, M):
     
     return(phi.real, omega.real)
 ~~~
-#### Atribuindo valores
+### Atribuindo valores
 
 ~~~python
 Nx = int(input("Nx: "))
@@ -165,7 +165,7 @@ K, M = buildKM(Nx, Ny, rho, sigma, delta, mask(Nx, Ny))
 
 phi, omega = solve(K, M)
 ~~~
-#### Visualização dos dados
+### Visualização dos dados
 ~~~python
 while True:
     k = int(input("Digite o indice do modo: "))
