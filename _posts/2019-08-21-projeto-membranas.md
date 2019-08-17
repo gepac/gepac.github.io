@@ -85,7 +85,7 @@ def buildKM(Nx, Ny, rho, sigma, delta, mask):
         for j in range(Ny):
             Ic=ij2n(i, j, Nx)
 
-            if !mask[i, j]:
+            if not mask[i, j]:
                 K[Ic,:]=0.
                 K[:,Ic]=0.
                 K[Ic,Ic]=1e9
