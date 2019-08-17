@@ -19,6 +19,10 @@ $$\nabla^2 u = \frac{1}{v^2}\frac{\partial^2 u}{\partial t^2}$$
 
 $$\rho\frac{\partial^2 u}{\partial t^2} - \sigma\nabla^2 u = 0$$
 
+Como é feita a discretização para a equação de onda
+
+![Malha de discretizando da membranda](/img/projeto-membranas-2019/malha.png)
+
 Para a forma matricial usaremos $$K = -\sigma\nabla^2$$ para a modelagem:
 
 $$MU''+KU = 0$$
@@ -33,7 +37,7 @@ $$K\Phi = \omega^{2}M\Phi$$
 
 $$\rho\frac{d^{2}u_{ij}}{dt^{2}} - \sigma\frac{u_{i+1,j}+u_{i-1,j}+u_{i,j+1}+u_{i,j-1}-4u_{ij}}{\delta^{2}} = 0$$
 
-![Malha de discretizando da membranda](/img/projeto-membranas-2019/malha.png)
+![forma matricial da equação](/img/projeto-membranas-2019/calcmatriz.png)
 
 #### Bibliotecas usadas
 ~~~python
@@ -44,15 +48,16 @@ from mpl_toolkits import mplot3d
 ~~~
 
 #### Cria o índice global
-O índice global será o que dará a forma da base do sistema. A escolha para ser desse jeito é por pura conveniência, já que o método reshape do numpy "desfaz" esse modo.
+O índice global será o que dará a forma da base do sistema. A escolha para ser desse jeito é por pura conveniência, já que o método reshape do numpy "desfaz" essa forma de indexar.
 ~~~python
 def ij2n(i,j,Nx):
     return(i + j*Nx)
 ~~~
 
 #### Construção das matrizes K e M
+Na construção das matrizes K e M irei considerar rho e sigma constantes, mas poderia passar uma função com poucas modificações
 ~~~python
-def buildKM(Nx, Ny, rho, sigma, delta, mascara):
+def buildKM(Nx, Ny, rho, sigma, delta, mask):
     NxNy = Nx*Ny
     K = np.zeros( (NxNy,NxNy) )
     M = np.zeros( (NxNy,NxNy) )
@@ -78,9 +83,9 @@ def buildKM(Nx, Ny, rho, sigma, delta, mascara):
 
     for i in range(Nx):
         for j in range(Ny):
-            Ic=ij2n(i,j,Nx)
+            Ic=ij2n(i, j, Nx)
 
-            if mascara[i, j]:
+            if !mask[i, j]:
                 K[Ic,:]=0.
                 K[:,Ic]=0.
                 K[Ic,Ic]=1e9
@@ -91,10 +96,10 @@ def buildKM(Nx, Ny, rho, sigma, delta, mascara):
 ~~~
 #### Montagem da máscara da membrana
 
-A máscara é uma matriz com zeros e uns para facilitar na construção da forma da membrana, onde os zeros são posições onde a membrana tem liberdade para mudar de posição e os uns posições que serão travadas
+A máscara é uma matriz com zeros e uns para facilitar na construção da forma da membrana, onde os uns são posições onde a membrana tem liberdade para mudar de posição e os zeros posições que serão travadas
 ~~~python
 def mask(Nx, Ny):
-    Mk = np.zeros( (Nx,Ny), np.int )
+    Mk = np.ones( (Nx,Ny), np.int )
     
     # Define um raio que tem 40% do menor lado da malha
     r = np.floor(0.4*min(Nx, Ny))
@@ -106,29 +111,30 @@ def mask(Nx, Ny):
             
             # Pode colocar a função que desejar no if
             if x**2 + y**2 > r**2:
-                # Define com 1 os pontos da membrana que estão travados
-                Mk[i,j] = 1
+                # Define com 0 os pontos da membrana que estão travados
+                Mk[i,j] = 0
     
     # Trava as bordas
-    Mk[ 0, :] = 1
-    Mk[-1, :] = 1
-    Mk[ :, 0] = 1
-    Mk[ :,-1] = 1
+    Mk[ 0, :] = 0
+    Mk[-1, :] = 0
+    Mk[ :, 0] = 0
+    Mk[ :,-1] = 0
 
     return Mk
 ~~~
 #### Como resolver o sistema e obtendo os Autovalores e Autovetores
 
-~~~python
+Funcionamento da função de eig do scipy
+
+~~~
+a = matriz (n x n)
+b = matriz (n x n)
+D = autovalores (n)
+V = autovetores (n x n)
+
 [D, V] = scipy.linalg.eig(a, b)
 a*V = D*b*V
 ~~~
-- Funcionamento da função de eig do scipy
-
-a = matriz (NxNy x NxNy)
-b = matriz (NxNy x NxNy)
-D = autovalores (NxNy)
-V = autovetores (NxNy x NxNy)
 
 $$aV = DbV$$
 $$K\Phi = \omega^{2}M\Phi$$
@@ -146,6 +152,7 @@ def solve(K, M):
     return(phi.real, omega.real)
 ~~~
 #### Atribuindo valores
+
 ~~~python
 Nx = int(input("Nx: "))
 Ny = int(input("Ny: "))
