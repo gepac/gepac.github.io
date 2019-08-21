@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Oscilações membranas: Solução numérica
+title: "Oscilações em membranas: Solução numérica"
 excerpt: Com esse projeto temos o objetivo de mostrar o funcionamento da discretização finita para uma EDP parabólica e homogênea
 tags: [python, projeto]
 ---
@@ -66,16 +66,16 @@ def buildKM(Nx, Ny, rho, sigma, delta, mask):
         for j in range(1, Ny-1):
             Ic = ij2n(i,   j,   Nx)
             K[Ic,Ic] = -4
-            
+
             Ie = ij2n(i+1, j,   Nx)
             K[Ic,Ie] = 1
-            
+
             Iw = ij2n(i-1, j,   Nx)
             K[Ic,Iw] = 1
-            
+
             In = ij2n(i,   j+1, Nx)
             K[Ic,In] = 1
-            
+
             Is = ij2n(i,   j-1, Nx)
             K[Ic,Is] = 1
 
@@ -100,7 +100,7 @@ A máscara é uma matriz com zeros e uns para facilitar na construção da forma
 ~~~python
 def mask(Nx, Ny):
     Mk = np.ones( (Nx,Ny), np.int )
-    
+
     # Define um raio que tem 40% do menor lado da malha
     r = np.floor(0.4*min(Nx, Ny))
 
@@ -108,12 +108,12 @@ def mask(Nx, Ny):
         x = i - Nx//2
         for j in range(Ny):
             y = j - Ny//2
-            
+
             # Pode colocar a função que desejar no if
             if x**2 + y**2 > r**2:
                 # Define com 0 os pontos da membrana que estão travados
                 Mk[i,j] = 0
-    
+
     # Trava as bordas
     Mk[ 0, :] = 0
     Mk[-1, :] = 0
@@ -122,7 +122,7 @@ def mask(Nx, Ny):
 
     return Mk
 ~~~
-### Como resolver o sistema e obtendo os Autovalores e Autovetores
+### Como resolver o sistema e obter os Autovalores e Autovetores
 
 Funcionamento da função de eig do scipy
 
@@ -137,18 +137,19 @@ a*V = D*b*V
 ~~~
 
 $$aV = DbV$$
+
 $$K\Phi = \omega^{2}M\Phi$$
 
 ~~~python
 def solve(K, M):
     omega2, phi = la.eig(K, M)
-    
+
     # Ordena os resultados
     idx = np.argsort(omega2)
     omega2 = omega2[idx]
     phi = phi[:,idx]
     omega = np.sqrt(omega2)
-    
+
     return(phi.real, omega.real)
 ~~~
 ### Atribuindo valores
@@ -171,7 +172,7 @@ while True:
     k = int(input("Digite o indice do modo: "))
     ciclos = float(input("Digite o número de ciclos: "))
     Z = phi[:, k].reshape(Nx, Ny)
-    
+
     dt = (ciclos*2*np.pi)/omega[k]
 
     zlim = np.max(np.abs(Z))*1.02
