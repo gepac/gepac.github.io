@@ -1,5 +1,5 @@
 ---
-name: CJ(Augusto)
+name: CJ
 photo: "cj.jpeg"
 link: "mailto:augustonunes@usp.br"
 ---
