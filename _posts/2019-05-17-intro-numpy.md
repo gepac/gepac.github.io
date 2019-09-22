@@ -1,14 +1,12 @@
 ---
 layout: post
 title: >-
-    Oficina de bibliotecas Python: parte 1
+    Introdução ao NumPy
 excerpt: >-
-    Nesta primeira aula, abordamos criação e manipulação de arrays com NumPy
-    e um pouco de matplotlib para produção de gráficos.
+    Este post aborda criação e manipulação de arrays multidimensionais
+    com o NumPy.
 tags: [python, oficina]
 ---
-
-## Introdução ao NumPy
 
 ### O que é NumPy?
 
@@ -352,7 +350,7 @@ Novamente, veja [a
 documentação](https://docs.scipy.org/doc/numpy/reference/generated/numpy.savetxt.html#numpy.savetxt)
 do `savetxt` para detalhes.
 
-#### Links úteis de NumPy
+#### Alguns links úteis
 
 - [Referência do
   NumPy](https://docs.scipy.org/doc/numpy/reference/index.html): está tudo
@@ -367,222 +365,6 @@ do `savetxt` para detalhes.
 - [Lista de funções
   universais](https://docs.scipy.org/doc/numpy/reference/ufuncs.html#available-ufuncs)
 
-
-## Introdução ao `matplotlib.pyplot`
-
-### O que é matplotlib?
-
-O pacote [matplotlib](https://matplotlib.org/) é voltado para criação de
-gráficos de alta qualidade.
-
-O `matplotlib` oferece formas diferentes de se fazer a mesma coisa.  Vamos
-usar o `pyplot`, uma interface simples que permite fazer gráficos
-rapidamente e sem saber programação orientada a objetos. Ele é classicamente
-importado como `plt`:
-
-~~~ python
-import matplotlib.pyplot as plt
-~~~
-
-Para fazer um gráfico simples, usamos a função `plot`. Ela recebe um número
-arbitrário de argumentos e é muito versátil. O mais comum é usá-la da
-seguinte forma:
-
-~~~ python
-plt.plot(x, y, formato)
-~~~
-
-Aqui, `x` é uma sequência de coordenadas horizontais: pode ser uma tupla,
-uma lista ou um array unidimensional. Analogamente, `y` é uma sequência de
-coordenadas verticais. As sequências devem ter o mesmo tamanho. O parâmetro
-`formato` é uma string especificando rapidamente o estilo do gráfico (por
-exemplo: incluindo os caracteres `r`, `g` ou `b` o gráfico fica com cor
-vermelha, verde ou azul; `-` indica uma linha sólida e `--` uma linha
-tracejada; `o`, `s` e `^` fazem marcadores em cima de cada ponto com formato
-de bolinha, quadrado ou triângulo). O parâmetro `formato` é *opcional*, e
-por padrão o gráfico é feito com uma linha sólida ligando os pontos
-especificados. É possível passar parâmetros adicionais; veja [a
-documentação](https://matplotlib.org/api/_as_gen/matplotlib.pyplot.plot.html)
-para uma discussão detalhada.
-
-Por exemplo, vamos graficar as funções $$y = x$$, $$y = x^2$$ e $$y = x^3$$.
-O primeiro passo é gerar os valores de `x` que serão usados; aqui, usamos a
-função `linspace`. Em seguida graficamos as funções com a função `plot` e
-executamos o comando `plt.show()` para mostrar o gráfico na tela:
-
-~~~ python
-x = np.linspace(0, 2, 21) # 21 pontos no intervalo [0, 2]
-plt.plot(x, x)            # função y = x
-plt.plot(x, x**2)         # função y = x^2
-plt.plot(x, x**3)         # função y = x^3
-plt.show()
-~~~
-
-Salve este código num arquivo Python e o execute (não esqueça de importar o
-NumPy e o pyplot!). O resultado é a figura:
-
-![Gráfico das funções x, x² e
-x³.](../img/oficina-scipy-2019/lin-quad-cub-bare.png)
-
-Com pouco trabalho já conseguimos um gráfico razoável: o pyplot
-automaticamente ajustou as escalas e deu cores diferentes para cada gráfico.
-Podemos personalizar um pouco adicionando strings de formato:
-
-~~~ python
-x = np.linspace(0, 2, 21)
-plt.plot(x, x, 'b--')   # linha azul (b) tracejada (--)
-plt.plot(x, x**2, 'go') # nenhuma linha, bolinhas (o) verdes (g)
-plt.plot(x, x**3, 'r^') # nenhuma linha, triângulos (^) vermelhos (r)
-plt.show()
-~~~
-
-![Gráfico das funções x, x² e x³ em diferentes
-estilos.](../img/oficina-scipy-2019/lin-quad-cub-style.png)
-
-Por último, podemos nos preocupar com detalhes. Por exemplo, vamos colocar
-legendas (parâmetro `label`, função `legend`), um título no gráfico
-(`title`), descrições nos eixos coordenados (`xlabel` e `ylabel`) e uma
-grade para facilitar a leitura do gráfico (`grid`):
-
-~~~ python
-x = np.linspace(0, 2, 21)
-plt.plot(x, x, 'b--', label='linear')
-plt.plot(x, x**2, 'go', label='quadrático')
-plt.plot(x, x**3, 'r^', label='cúbico')
-plt.xlabel('teste x')
-plt.ylabel('teste y')
-plt.title('Gráfico simples')
-plt.legend()
-plt.grid()
-plt.show()
-~~~
-
-![Gráfico das funções x, x² e x³ em diferentes estilos, com legendas e
-grade.](../img/oficina-scipy-2019/lin-quad-cub.png)
-
-Agora que tudo está pronto, basta salvar o gráfico como um arquivo de
-imagem. Você pode fazer isto diretamente da tela interativa que surge ao
-rodar o comando `show` (mais detalhes na próxima aula). Isto encerra nosso
-primeiro exemplo.
-
-Perceba que a função `plot` toma coordenadas (x, y) e registra os pontos
-correspondentes na imagem *em sequência*. Isto nos permite graficar não só
-funções, mas qualquer curva parametrizada. Por exemplo, uma elipse centrada
-na origem:
-
-~~~ python
-t = np.linspace(0, 2*np.pi, 100)
-x, y = 2*np.cos(t), np.sin(t)
-plt.axis('equal')   # iguala as escalas horizontal e vertical
-plt.plot(x, y)
-plt.show()
-~~~
-
-![Gráfico de uma curva parametrizada:
-elipse.](../img/oficina-scipy-2019/elipse.png)
-
-Nos dois exemplos acima, os limites de cada eixo foram escolhidos
-automaticamente pelo pyplot --- embora, no segundo caso, tenhamos restrito
-as escalas a ficarem iguais. Podemos escolher manualmente os limites dos
-eixos com as funções `xlim` e `ylim`:
-
-~~~ python
-x = np.linspace(0, 2, 61)
-plt.plot(x, x)
-plt.plot(x, 1 / x)
-plt.plot(x, 1 / x**2)
-plt.xlim(0, 2)  # de 0 até 2 na horizontal
-plt.ylim(0, 4)  # de 0 até 4 na vertical
-plt.show()
-~~~
-
-![Gráfico das funções x, 1/x e 1/x², com limites controlados
-manualmente.](../img/oficina-scipy-2019/xlim-ylim.png)
-
-Se, além do mais, nossos dados têm incertezas e queremos incluir barras de
-erro nos gráficos, usamos a função `errorbar` no lugar de `plot`. O uso é
-bastante similar:
-
-~~~ python
-plt.errorbar(x, y, yerr, xerr, formato)
-~~~
-
-Os primeiros parâmetros, `x` e `y`, são as coordenadas dos pontos e
-funcionam como em `plot`. Todos os parâmetros seguintes são opcionais. Se
-`y` é um array de formato `(N,)`, então `yerr`, que representa os erros em
-`y`, pode ser:
-
-- um escalar: neste caso o erro em `y` é simétrico e idêntico em todos os
-  pontos
-- um array de formato `(N,)`: o erro é simétrico mas varia de ponto a ponto
-- um array de formato `(2, N)`: o erro na direção positiva é diferente do
-  erro na direção negativa e varia de ponto a ponto. Primeira linha contém
-  os erros na direção negativa, e a segunda, os erros na direção positiva.
-
-O mesmo vale para `xerr`. Além disso, `formato` é uma string que segue as
-mesmas regras que existiam para `plot`. Você também pode passar parâmetros
-adicionais que controlam pormenores; veja [a
-documentação](https://matplotlib.org/api/_as_gen/matplotlib.pyplot.errorbar.html).
-
-Um exemplo simples do uso de `errorbar`:
-
-~~~ python
-# simula dados experimentais com erros aleatórios
-x = np.arange(0, 11)
-y = 5 * np.sin(x / 7.0) + np.random.normal(0, 0.15, 11)
-erroy = 0.3 + 0.05 * y
-
-# simula um 'modelo teórico'
-tx = np.linspace(0, 10.5, 100)
-ty = 5 * np.sin(tx / 7)
-
-plt.plot(tx, ty, label='Teórico')
-plt.errorbar(x, y, erroy, fmt='ks', label='Experimental')
-plt.legend()
-plt.grid()
-plt.show()
-~~~
-
-![Simulação de dados com incertezas, plotados com a função
-errorbar.](../img/oficina-scipy-2019/barras-de-erro.png)
-
-As funções `plot` e `errorbar` são suficientes para a maioria dos gráficos
-do dia-a-dia. Além de `errorbar`, há outras funções que funcionam de maneira
-similar a `plot`:
-
-- `scatter`: faz gráficos de dispersão
-- `semilogx`, `semilogy`, `loglog`: faz gráficos simples em escala
-  logarítmica
-- `polar`: faz gráficos simples em coordenadas polares
-
-Também vale a pena mencionar aqui as funções:
-
-- `bar` e `barh`: fazem gráficos de barras
-- `pie`: faz gráficos de pizza
-- `hist` e `hist2d`: fazem histogramas
-- `contour`: faz gráficos de contorno (curvas de nível de função escalar)
-- `imshow`: mostra imagens 2D
-- `quiver`: mostra um campo de vetores 2D
-- `streamplot`: mostra linhas de fluxo de um campo vetorial 2D
-
-Há muita coisa que não discutimos. Isto mostra apenas que o matplotlib é uma
-biblioteca muito completa! Na aula seguinte, exploraremos alguns tópicos
-adicionais de matplotlib (por exemplo, criar subplots e controlar o tamanho
-da imagem resultante) e começaremos nosso estudo do SciPy. Até lá, faça os
-exercícios!
-
-### Links úteis de matplotlib
-
-- [Documentação completa do
-  matplotlib](https://matplotlib.org/api/index.html): é grande, contém muito
-  mais do que cobrimos aqui.
-- [Tutoriais oficiais do
-  matplotlib](https://matplotlib.org/tutorials/index.html): **fortemente
-  recomendados**. Cobrem do básico ao avançado. O que nós fizemos hoje é
-  mais ou menos o segundo tutorial.
-- [Sumário do
-  pyplot](https://matplotlib.org/api/pyplot_summary.html): contém
-  todas as funções da interface `matplotlib.pyplot`, que usamos aqui.
 
 ## Exercícios
 
@@ -602,27 +384,6 @@ exercícios!
 1. Escreva uma tabela numérica num arquivo de texto e carregue-a com a
    função `loadtxt()`. Usando *slicing*, faça um array contendo apenas a
    primeira coluna da tabela.
-
-1. *Polinômios de Taylor*. Faça um gráfico da função $$\sin x$$ e de seus
-   primeiros polinômios de Taylor, $$P_1(x) = x$$, $$P_3(x) = x - x^3/6$$ e
-   $$P_5(x) = x - x^3/6 + x^5/120$$, no intervalo $$[-\pi, \pi]$$.
-
-1. Faça um gráfico das funções $$y = x$$, $$y = x^2$$, $$y = x^3$$ em escala
-   logarítmica usando a função `loglog`, no intervalo $$[1, 100]$$. (O
-   gráfico deve ter três retas.)
-
-1. *Órbitas keplerianas*. Desenhe uma elipse com foco na origem, cuja
-   equação em coordenadas polares $$(r, \theta)$$ é dada por
-
-   $$ r (e \cos \theta + 1) = \ell $$
-
-   Aqui, $$0 \leq e < 1$$ é a excentricidade e $$\ell$$ é um parâmetro que
-   controla o tamanho da figura. (Dica: faça um array de valores $$\theta$$
-   entre 0 e $$2\pi$$, use a equação para obter um array correspondente de
-   valores $$r$$, e então plote $$x = r \cos \theta$$ e $$y = r \sin
-   \theta$$).
-
-1. Repita o exercício acima usando a função `polar`.
 
 ## Licença
 

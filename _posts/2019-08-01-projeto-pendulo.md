@@ -40,13 +40,12 @@ Com este dado, criamos uma função linear de $$\theta$$ no eixo x e de seu valo
 ~~~ python
 import numpy as np
 import matplotlib.pyplot as plt
-%matplotlib inline
 
-θ = np.linspace(0, 20, 100+1)
-θ_rad =  np.deg2rad(θ)
-pl_linear, = plt.plot(θ, θ_rad, label=r'$\theta$') 
+theta = np.linspace(0, 20, 100+1)
+theta_rad =  np.deg2rad(theta)
+pl_linear, = plt.plot(theta, theta_rad, label=r'$\theta$') 
 
-pl_sin, = plt.plot(θ, np.sin(θ_rad), label=r'$\sin\theta$')
+pl_sin, = plt.plot(theta, np.sin(theta_rad), label=r'$\sin\theta$')
 
 plt.xlabel(r'$\theta$')
 plt.legend(handles=[pl_linear, pl_sin])
@@ -70,10 +69,10 @@ Fixando alguns parâmetros do pêndulo
 A partir de agora vamos fixar um pêndulo com $$\ell=9.8$$ usando $$g = 9.8m/s^2$$ (de modo que $$\omega_0=1$$), sempre considerando a massa sendo largada do repouso (que resulta em $$\phi=0$$).
  
 ~~~ python
-ℓ = 9.8 # ℓ é o comprimento
+L = 9.8 # L é o comprimento
 g = 9.8 # g a aceleração da gravidade
-ω0 = np.sqrt(g/ℓ)
-T0 = 2 * np.pi / ω0 # Período da oscilação natural
+omega0 = np.sqrt(g/L)
+T0 = 2 * np.pi / omega0 # Período da oscilação natural
 ~~~
 
 ### Discretização do tempo
@@ -93,41 +92,41 @@ $$\frac{d^2\theta}{dt^2} = - \frac{g}{\ell}\sin\theta,$$
 
 fazemos a transformação
 
-\begin{eqnarray}
+$$ \begin{eqnarray}
   x & = & \theta \\
   y & = & \frac{d\theta}{dt}
-\end{eqnarray}
+\end{eqnarray} $$
 
 Chegando a:
 
-\begin{eqnarray}
+$$ \begin{eqnarray}
   \frac{dx}{dt} & = & y \\
   \frac{dy}{dt} & = & - \frac{g}{\ell} \sin x
-\end{eqnarray}
+\end{eqnarray} $$
 
 Com o qual podemos montar a solução usando SciPy.
 
 ~~~ python
-def simple_nonlinear_pendulum(xy, t, g, ℓ):
+def simple_nonlinear_pendulum(xy, t, g, L):
     x, y = xy
-    return y, -g/ℓ * np.sin(x)
+    return y, -g/L * np.sin(x)
 
 from scipy.integrate import odeint
 
-def simulate_simple_nonlinear_pendulum(θ0, tmax, nintervals, g, ℓ):
-    θ0_rad = np.deg2rad(θ0)
+def simulate_simple_nonlinear_pendulum(theta0, tmax, nintervals, g, L):
+    theta0_rad = np.deg2rad(theta0)
     t = np.linspace(0, tmax, nintervals + 1)
-    xy0 = [θ0_rad, 0.]
-    xy = odeint(simple_nonlinear_pendulum, xy0, t, args=(g, ℓ))
+    xy0 = [theta0_rad, 0.]
+    xy = odeint(simple_nonlinear_pendulum, xy0, t, args=(g, L))
     return t, np.rad2deg(xy)
 ~~~
 
 Uma função para fazer comparação da solução linear com a não-linear, dados os parâmetros.
 
 ~~~ python
-def compare_nonlinearity(θ0, tmax, nintervals, g, ℓ):
-    t, xy = simulate_simple_nonlinear_pendulum(θ0, tmax, nintervals, g, ℓ)
-    linear = θ0*np.cos(np.sqrt(g/ℓ) * t)
+def compare_nonlinearity(theta0, tmax, nintervals, g, L):
+    t, xy = simulate_simple_nonlinear_pendulum(theta0, tmax, nintervals, g, L)
+    linear = theta0*np.cos(np.sqrt(g/L) * t)
     pn, = plt.plot(t, xy[:,0], label='Não-linear')
     pl, = plt.plot(t, linear, label='Linear')
     plt.xlabel(r'$t$')
@@ -142,27 +141,27 @@ Fixando o intervalo de tempo e número de intervalos:
 ncycles = 5
 tmax, nintervals, _ = timing(ncycles, T0)
 
-compare_nonlinearity(5.0, tmax, nintervals, g, ℓ)
+compare_nonlinearity(5.0, tmax, nintervals, g, L)
 ~~~
 
 Note como para $$\theta_0$$ pequeno não se vê diferença entre o sistema não-linear e o linear. Vejamos agora com um ângulo inicial maior.
 
 ~~~ python
-compare_nonlinearity(25.0, tmax, nintervals, g, ℓ)
+compare_nonlinearity(25.0, tmax, nintervals, g, L)
 ~~~
 
 Aqui já começamos a ver que o sistema não linearizado apresenta uma frequência menor de operação. Vejamos para um ângulo inicial ainda maior.
 
 ~~~ python
-compare_nonlinearity(45., tmax, nintervals, g, ℓ)
+compare_nonlinearity(45., tmax, nintervals, g, L)
 ~~~
 
 Mantendo a tendência de diminuir a frequência com o aumento de $\theta_0$. Mais dois ângulos maiores:
 
 ~~~ python
-compare_nonlinearity(90., tmax, nintervals, g, ℓ)
+compare_nonlinearity(90., tmax, nintervals, g, L)
 
-compare_nonlinearity(160., tmax, nintervals, g, ℓ)
+compare_nonlinearity(160., tmax, nintervals, g, L)
 ~~~
 
 Note como neste último caso fica também claro que o formato da onda, antes aparentemente senoidal, é dependente do ângulo inicial.
@@ -175,26 +174,26 @@ Vamos agora acrescentar um novo elemento: uma força externa atuando sobre o sis
 
 Nosso sistema fica então:
 
-\begin{eqnarray}
+$$ \begin{eqnarray}
   \frac{dx}{dt} & = & y \\
   \frac{dy}{dt} & = & -\frac{g}{\ell}\sin x - q y + f \sin \omega_F t.
-\end{eqnarray}
+\end{eqnarray} $$
 
-Para simular este sistema seguimos o mesmo procedimento anterior, mas iremos tomar um cuidado adicional: Como existe uma força externa além da gravidade, é possível que o pêndulo passe acima de seu ponto de origem, podendo inclusive "rodar" para o outro lado. Para manter os ângulos dentro de uma faixa específica (para facilitar os gráficos) vamos então continuamente manter os ângulos na faixa $$[-180º, 180º)$$.
+Para simular este sistema seguimos o mesmo procedimento anterior, mas iremos tomar um cuidado adicional: Como existe uma força externa além da gravidade, é possível que o pêndulo passe acima de seu ponto de origem, podendo inclusive "rodar" para o outro lado. Para manter os ângulos dentro de uma faixa específica (para facilitar os gráficos) vamos então continuamente manter os ângulos na faixa $$[-180^\circ, 180^\circ)$$.
 
 ~~~ python
 def normalize_angle(angle):
     return (angle + 180.) % 360. - 180.
 
-def forced_dissipative_nonlinear_pendulum(xy, t, g, ℓ, q, f, ωf):
+def forced_dissipative_nonlinear_pendulum(xy, t, g, L, q, f, omegaf):
     x, y = xy
-    return y, -g/ℓ*np.sin(x)-q*y+f*np.sin(ωf*t)
+    return y, -g/L*np.sin(x)-q*y+f*np.sin(omegaf*t)
 
-def simulate_forced(θ0, tmax, nintervals, g, ℓ, q, f, ωf):
-    θ0_rad = np.deg2rad(θ0)
+def simulate_forced(theta0, tmax, nintervals, g, L, q, f, omegaf):
+    theta0_rad = np.deg2rad(theta0)
     t = np.linspace(0, tmax, nintervals + 1)
-    xy0 = [θ0_rad, 0.]
-    xy = odeint(forced_dissipative_nonlinear_pendulum, xy0, t, args=(g, ℓ, q, f, ωf))
+    xy0 = [theta0_rad, 0.]
+    xy = odeint(forced_dissipative_nonlinear_pendulum, xy0, t, args=(g, L, q, f, omegaf))
     return t, np.rad2deg(xy)
 ~~~
 
@@ -202,13 +201,14 @@ Vamos fixar $$q=0.5$$ e $$\omega_F = 2/3$$, e usar $$f$$ como parâmetro e ajust
 
 ~~~ python
 q = 0.5
-ωf = 2./3.
-Tf = 2 * np.pi / ωf
+omegaf = 2./3.
+Tf = 2 * np.pi / omegaf
 ncycles = 10
 tmax, nintervals, _ = timing(ncycles, Tf)
 
 f = 0.01
-t, xy = simulate_forced(θ0, tmax, nintervals, g, ℓ, q, f, ωf)
+theta0 = 100
+t, xy = simulate_forced(theta0, tmax, nintervals, g, L, q, f, omegaf)
 q01 = normalize_angle(xy[:,0])
 p01, = plt.plot(t, xy[:, 0])
 plt.xlabel(r'$t$')
@@ -226,17 +226,17 @@ Vamos agora avaliar agora um outro aspecto do sistema: Vejamos o que acontece qu
 Primeiramente, para $$f=0.1$$.
 
 ~~~ python
-θ0 = 12. # Ângulo inicial
-Δθ0 = 0.2
-θ0prime = θ0 + Δθ0 # Ângulo inicial ligeiramente modificado
+theta0 = 12. # Ângulo inicial
+delta_theta0 = 0.2
+theta0prime = theta0 + delta_theta0 # Ângulo inicial ligeiramente modificado
 
 ncycles = 10
 tmax, nintervals, _ = timing(ncycles, Tf)
 
 f = 0.1
 
-t, xy_0 = simulate_forced(θ0,      tmax, nintervals, g, ℓ, q, f, ωf)
-t, xy_1 = simulate_forced(θ0prime, tmax, nintervals, g, ℓ, q, f, ωf)
+t, xy_0 = simulate_forced(theta0,      tmax, nintervals, g, L, q, f, omegaf)
+t, xy_1 = simulate_forced(theta0prime, tmax, nintervals, g, L, q, f, omegaf)
 
 plt.plot(t, np.abs(normalize_angle(xy_0[:, 0] - xy_1[:, 0])))
 plt.yscale('log')
@@ -255,17 +255,17 @@ onde $$\lambda$$ é negativo neste caso.
 Agora vejamos o que acontece para $$f=1.2$$. (Para mostrar melhor o comportamento, começamos com um valor bem menor de diferença nos ângulos iniciais.)
 
 ~~~ python
-θ0 = 12.
-Δθ0 = 0.00000001
-θ0prime = θ0 + Δθ0
+theta0 = 12.
+delta_theta0 = 0.00000001
+theta0prime = theta0 + delta_theta0
 
 ncycles = 30
 tmax, nintervals, _ = timing(ncycles, Tf)
 
 f = 1.2
 
-t, xy_0 = simulate_forced(θ0,      tmax, nintervals, g, ℓ, q, f, ωf)
-t, xy_1 = simulate_forced(θ0prime, tmax, nintervals, g, ℓ, q, f, ωf)
+t, xy_0 = simulate_forced(theta0,      tmax, nintervals, g, L, q, f, omegaf)
+t, xy_1 = simulate_forced(theta0prime, tmax, nintervals, g, L, q, f, omegaf)
 
 plt.plot(t, np.abs(normalize_angle(xy_0[:, 0] - xy_1[:, 0])))
 plt.yscale('log')
@@ -290,19 +290,19 @@ O subespaço a escolher depende do sistema e da análise desejada. No nosso caso
 Vamos fazer uma função que dado um array de valores de tempo, o tempo de ciclo e a precisão de tempo $$\Delta t$$ seleciona todos os índices (retornando um vetor de booleanos) que estão sincronizados com o ciclo de acordo com a expressão acima:
 
 ~~~ python
-def select_synchronized(t, Tf, Δt):
-    return np.abs(np.mod(t+Tf/2, Tf) - Tf/2) < Δt/2
+def select_synchronized(t, Tf, delta_t):
+    return np.abs(np.mod(t+Tf/2, Tf) - Tf/2) < delta_t/2
 
 q = 0.5
 ncycles = 200
-tmax, nintervals, Δt = timing(ncycles, Tf)
+tmax, nintervals, delta_t = timing(ncycles, Tf)
 
 f = 0.1
 
-t, xy = simulate_forced(θ0, tmax, nintervals, g, ℓ, q, f, ωf)
+t, xy = simulate_forced(theta0, tmax, nintervals, g, L, q, f, omegaf)
 traj = normalize_angle(xy[:, 0])
 
-selected = select_synchronized(t, Tf, Δt)
+selected = select_synchronized(t, Tf, delta_t)
 
 plt.plot(traj[selected], xy[selected, 1], 'o', markersize=3, alpha=0.3) # Plota apenas esses pontos
 plt.show()
@@ -315,22 +315,25 @@ Vejamos agora o que acontece no caso caótico.
 ~~~ python
 f = 1.2
 
-t, xy = simulate_forced(θ0, tmax, nintervals, g, ℓ, q, f, ωf)
+t, xy = simulate_forced(theta0, tmax, nintervals, g, L, q, f, omegaf)
 traj = normalize_angle(xy[:, 0])
 
-selected = select_synchronized(t, Tf, Δt)
+selected = select_synchronized(t, Tf, delta_t)
 
 plt.plot(traj[selected], xy[selected, 1], '.', markersize=3, alpha=0.3)
 plt.show()
+~~~
+
 O que acontece se deixamos o sistema executar por mais tempo?
 
+~~~ python
 ncycles = 2000
-tmax, nintervals, Δt = timing(ncycles, Tf)
+tmax, nintervals, delta_t = timing(ncycles, Tf)
 
-t, xy = simulate_forced(θ0, tmax, nintervals, g, ℓ, q, f, ωf)
+t, xy = simulate_forced(theta0, tmax, nintervals, g, L, q, f, omegaf)
 
 traj = normalize_angle(xy[:, 0])
-selected = select_synchronized(t, Tf, Δt)
+selected = select_synchronized(t, Tf, delta_t)
 
 plt.plot(traj[selected], xy[selected, 1], '.', markersize=3, alpha=0.3)
 plt.show()
@@ -352,7 +355,7 @@ ndiscard = ncycles_discard * samples_per_cycle # Número de amostras descartadas
 plt.figure(figsize=(9,9))
 fs = [1.065, 1.075, 1.082, 1.0826] # Alguns valores de f
 for i, f in enumerate(fs):
-    t, xy = simulate_forced(θ0, tmax, nintervals, g, ℓ, q, f, ωf)
+    t, xy = simulate_forced(theta0, tmax, nintervals, g, L, q, f, omegaf)
     traj = normalize_angle(xy[:, 0])
     
      # Seleciona os valores não descartados
@@ -388,14 +391,14 @@ fs = np.linspace(1.065,  1.087, 200+1)
 ncycles = 250
 ncycles_discard = 200
 samples_per_cycle = 100
-tmax, nintervals, Δt = timing(ncycles, Tf, samples_per_cycle)
+tmax, nintervals, delta_t = timing(ncycles, Tf, samples_per_cycle)
 ndiscard = ncycles_discard * samples_per_cycle
 
 plt.figure(figsize=(9,9))
 for f in fs:
-    t, xy = simulate_forced(θ0, tmax, nintervals, g, ℓ, q, f, ωf)
+    t, xy = simulate_forced(theta0, tmax, nintervals, g, L, q, f, omegaf)
     traj = normalize_angle(xy[:, 0])
-    selected = select_synchronized(t, Tf, Δt) # Selecionados pela seção de Poincaré
+    selected = select_synchronized(t, Tf, delta_t) # Selecionados pela seção de Poincaré
     traj_steady = traj[selected & (np.arange(nintervals+1) > ndiscard)] # Pega apenas os não-descartados
     # Plota todos os pontos no mesmo valor de f
     plt.plot(f * np.ones_like(traj_steady), traj_steady, 'k.', markersize=1)

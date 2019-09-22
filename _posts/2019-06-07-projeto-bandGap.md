@@ -2,6 +2,9 @@
 layout: post
 title: Cálculo de Band-gap com Python
 tags: [python, projeto]
+excerpt: >-
+    Projeto que demonstra o uso de SciPy para extrair informações a partir de
+    dados experimentais.
 ---
 
 ## Introdução
@@ -46,9 +49,9 @@ As ferramentas usadas para o projeto serão:
 O seguinte projeto fará uso das bibliotecas Numpy, SciPy e Matplotlib do
 Python 3. Para ter uma maior familiaridade com elas, acesse nosso material:
 
-- [Oficina de bibliotecas Python: parte 1](https://gepac.github.io/2019-05-17-oficina-scipy-aula1/)
-- [Oficina de bibliotecas Python: parte 2](https://gepac.github.io/2019-05-24-oficina-scipy-aula2/)
-- Oficina de bibliotecas Python: parte 3 - EM CONSTRUÇÃO
+- [Introdução ao NumPy]({% post_url 2019-05-17-intro-numpy %})
+- [Introdução ao matplotlib]({% post_url 2019-05-17-intro-matplotlib %})
+- [Introdução ao SciPy]({% post_url 2019-05-17-intro-scipy %})
 
 *Estão disponíveis
 [aqui](https://github.com/gepac/gepac.github.io/tree/master/img/projeto-bandgap-2019/data) alguns
