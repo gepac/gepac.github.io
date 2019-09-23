@@ -1,33 +1,230 @@
 ---
-title: "Oficina de bibliotecas Python: parte 2"
 layout: post
+title: >-
+    Introdução ao matplotlib
 excerpt: >-
-    Nesta segunda aula, avançamos um pouco mais no matplotlib e começamos a
-    usar o SciPy. Discutimos o ajuste de parâmetros de curvas com o método
-    dos mínimos quadrados.
+    Aqui abordamos um pouco o pacote matplotlib para produção de gráficos.
 tags: [python, oficina]
 ---
 
-## Um pouco de matplotlib (continuação)
+### O que é matplotlib?
 
-Vamos continuar nossa incursão pelo matplotlib, focando em usar a interface
-`pyplot` de forma efetiva e rápida. Como já mencionado, o `pyplot` permite
-fazer gráficos de modo imperativo, *à la* MATLAB, sem conhecer programação
-orientada a objetos.
+O pacote [matplotlib](https://matplotlib.org/) é voltado para criação de
+gráficos de alta qualidade e é muito usado hoje no meio científico, além de
+ser software livre. Este tutorial introduz a essência do que se deve saber
+para trabalhar com o `matplotlib`, e também serve como _cheat sheet_, por
+isso está organizado em seções.
 
-Entre num shell interativo do Python. Vamos começar importando nossos
-suspeitos usuais:
+### A interface pyplot e a função plot
+
+Há maneiras diferentes de se produzir a mesma coisa com o matplotlib. Para a
+maioria dos usos, a maneira mais simples é a melhor, e isto é o que oferece
+o pacote `matplotlib.pyplot`. Ele é uma interface simples que permite fazer
+gráficos rapidamente e sem usar programação orientada a objetos, mas usando
+uma sequência de ''comandos''. Ele é classicamente importado como `plt`:
+
+~~~ python
+import matplotlib.pyplot as plt
+~~~
+
+Para fazer um gráfico simples, usamos a função `plot`. Ela recebe um número
+arbitrário de argumentos e é muito versátil. O mais comum é usá-la da
+seguinte forma:
+
+~~~ python
+plt.plot(x, y, formato)
+~~~
+
+Aqui, `x` é uma sequência de coordenadas horizontais: pode ser uma tupla,
+uma lista ou um array unidimensional. Analogamente, `y` é uma sequência de
+coordenadas verticais. As sequências devem ter o mesmo tamanho. O parâmetro
+`formato` é uma string especificando rapidamente o estilo do gráfico (por
+exemplo: incluindo os caracteres `r`, `g` ou `b` o gráfico fica com cor
+vermelha, verde ou azul; `-` indica uma linha sólida e `--` uma linha
+tracejada; `o`, `s` e `^` fazem marcadores em cima de cada ponto com formato
+de bolinha, quadrado ou triângulo). O parâmetro `formato` é *opcional*, e
+por padrão o gráfico é feito com uma linha sólida ligando os pontos
+especificados. É possível passar parâmetros adicionais; veja [a
+documentação](https://matplotlib.org/api/_as_gen/matplotlib.pyplot.plot.html)
+para uma discussão detalhada.
+
+Por exemplo, vamos graficar as funções $$y = x$$, $$y = x^2$$ e $$y = x^3$$.
+O primeiro passo é gerar os valores de `x` que serão usados; aqui, usamos a
+função `linspace`. Em seguida graficamos as funções com a função `plot` e
+executamos o comando `plt.show()` para mostrar o gráfico na tela:
+
+~~~ python
+x = np.linspace(0, 2, 21) # 21 pontos no intervalo [0, 2]
+plt.plot(x, x)            # função y = x
+plt.plot(x, x**2)         # função y = x^2
+plt.plot(x, x**3)         # função y = x^3
+plt.show()
+~~~
+
+Salve este código num arquivo Python e o execute (não esqueça de importar o
+NumPy e o pyplot!). O resultado é a figura:
+
+![Gráfico das funções x, x² e
+x³.](../img/oficina-scipy-2019/lin-quad-cub-bare.png)
+
+Com pouco trabalho já conseguimos um gráfico razoável: o pyplot
+automaticamente ajustou as escalas e deu cores diferentes para cada gráfico.
+Podemos personalizar um pouco adicionando strings de formato:
+
+~~~ python
+x = np.linspace(0, 2, 21)
+plt.plot(x, x, 'b--')   # linha azul (b) tracejada (--)
+plt.plot(x, x**2, 'go') # nenhuma linha, bolinhas (o) verdes (g)
+plt.plot(x, x**3, 'r^') # nenhuma linha, triângulos (^) vermelhos (r)
+plt.show()
+~~~
+
+![Gráfico das funções x, x² e x³ em diferentes
+estilos.](../img/oficina-scipy-2019/lin-quad-cub-style.png)
+
+Por último, podemos nos preocupar com detalhes. Por exemplo, vamos colocar
+legendas (parâmetro `label`, função `legend`), um título no gráfico
+(`title`), descrições nos eixos coordenados (`xlabel` e `ylabel`) e uma
+grade para facilitar a leitura do gráfico (`grid`):
+
+~~~ python
+x = np.linspace(0, 2, 21)
+plt.plot(x, x, 'b--', label='linear')
+plt.plot(x, x**2, 'go', label='quadrático')
+plt.plot(x, x**3, 'r^', label='cúbico')
+plt.xlabel('teste x')
+plt.ylabel('teste y')
+plt.title('Gráfico simples')
+plt.legend()
+plt.grid()
+plt.show()
+~~~
+
+![Gráfico das funções x, x² e x³ em diferentes estilos, com legendas e
+grade.](../img/oficina-scipy-2019/lin-quad-cub.png)
+
+Agora que tudo está pronto, basta salvar o gráfico como um arquivo de
+imagem. Você pode fazer isto diretamente da tela interativa que surge ao
+rodar o comando `show` (mais detalhes adiante). Isto encerra nosso
+primeiro exemplo.
+
+Perceba que a função `plot` toma coordenadas (x, y) e registra os pontos
+correspondentes na imagem *em sequência*. Isto nos permite graficar não só
+funções, mas qualquer curva parametrizada. Por exemplo, uma elipse centrada
+na origem:
+
+~~~ python
+t = np.linspace(0, 2*np.pi, 100)
+x, y = 2*np.cos(t), np.sin(t)
+plt.axis('equal')   # iguala as escalas horizontal e vertical
+plt.plot(x, y)
+plt.show()
+~~~
+
+![Gráfico de uma curva parametrizada:
+elipse.](../img/oficina-scipy-2019/elipse.png)
+
+Nos dois exemplos acima, os limites de cada eixo foram escolhidos
+automaticamente pelo pyplot --- embora, no segundo caso, tenhamos restrito
+as escalas a ficarem iguais. Podemos escolher manualmente os limites dos
+eixos com as funções `xlim` e `ylim`:
+
+~~~ python
+x = np.linspace(0, 2, 61)
+plt.plot(x, x)
+plt.plot(x, 1 / x)
+plt.plot(x, 1 / x**2)
+plt.xlim(0, 2)  # de 0 até 2 na horizontal
+plt.ylim(0, 4)  # de 0 até 4 na vertical
+plt.show()
+~~~
+
+![Gráfico das funções x, 1/x e 1/x², com limites controlados
+manualmente.](../img/oficina-scipy-2019/xlim-ylim.png)
+
+Se, além do mais, nossos dados têm incertezas e queremos incluir barras de
+erro nos gráficos, usamos a função `errorbar` no lugar de `plot`. O uso é
+bastante similar:
+
+~~~ python
+plt.errorbar(x, y, yerr, xerr, formato)
+~~~
+
+Os primeiros parâmetros, `x` e `y`, são as coordenadas dos pontos e
+funcionam como em `plot`. Todos os parâmetros seguintes são opcionais. Se
+`y` é um array de formato `(N,)`, então `yerr`, que representa os erros em
+`y`, pode ser:
+
+- um escalar: neste caso o erro em `y` é simétrico e idêntico em todos os
+  pontos
+- um array de formato `(N,)`: o erro é simétrico mas varia de ponto a ponto
+- um array de formato `(2, N)`: o erro na direção positiva é diferente do
+  erro na direção negativa e varia de ponto a ponto. Primeira linha contém
+  os erros na direção negativa, e a segunda, os erros na direção positiva.
+
+O mesmo vale para `xerr`. Além disso, `formato` é uma string que segue as
+mesmas regras que existiam para `plot`. Você também pode passar parâmetros
+adicionais que controlam pormenores; veja [a
+documentação](https://matplotlib.org/api/_as_gen/matplotlib.pyplot.errorbar.html).
+
+Um exemplo simples do uso de `errorbar`:
+
+~~~ python
+# simula dados experimentais com erros aleatórios
+x = np.arange(0, 11)
+y = 5 * np.sin(x / 7.0) + np.random.normal(0, 0.15, 11)
+erroy = 0.3 + 0.05 * y
+
+# simula um 'modelo teórico'
+tx = np.linspace(0, 10.5, 100)
+ty = 5 * np.sin(tx / 7)
+
+plt.plot(tx, ty, label='Teórico')
+plt.errorbar(x, y, erroy, fmt='ks', label='Experimental')
+plt.legend()
+plt.grid()
+plt.show()
+~~~
+
+![Simulação de dados com incertezas, plotados com a função
+errorbar.](../img/oficina-scipy-2019/barras-de-erro.png)
+
+As funções `plot` e `errorbar` são suficientes para a maioria dos gráficos
+do dia-a-dia. Além de `errorbar`, há outras funções que funcionam de maneira
+similar a `plot`:
+
+- `scatter`: faz gráficos de dispersão
+- `semilogx`, `semilogy`, `loglog`: faz gráficos simples em escala
+  logarítmica
+- `polar`: faz gráficos simples em coordenadas polares
+
+Também vale a pena mencionar aqui as funções:
+
+- `bar` e `barh`: fazem gráficos de barras
+- `pie`: faz gráficos de pizza
+- `hist` e `hist2d`: fazem histogramas
+- `contour`: faz gráficos de contorno (curvas de nível de função escalar)
+- `imshow`: mostra imagens 2D
+- `quiver`: mostra um campo de vetores 2D
+- `streamplot`: mostra linhas de fluxo de um campo vetorial 2D
+
+Há muito mais que estas. O matplotlib é uma biblioteca muito completa!
+Veja os links no final do tutorial para saber mais.
+
+### Usando o pyplot interativamente
+
+Até aqui, usamos o matplotlib apenas escrevendo scripts, salvando em arquivos
+`.py`, e executando no terminal. Isto não é muito prático. A maneira mais
+rápida de explorar seus dados, sejam de um experimento ou de uma simulação,
+é fazer um gráfico interativo. Para isso, entre num shell interativo do
+Python. Vamos começar importando nossos suspeitos usuais:
 
 ~~~ python
 import numpy as np
 import matplotlib.pyplot as plt
 ~~~
 
-### Usando o pyplot interativamente
-
-A maneira mais rápida de explorar seus dados, sejam de um experimento ou de
-uma simulação, é fazer um gráfico interativo. Ativamos o modo interativo do
-pyplot com a função `ion()`:
+Ativamos o modo interativo do pyplot com a função `ion()`:
 
 ~~~ python
 plt.ion()
@@ -287,7 +484,7 @@ numa figura, ou de exibir/exportar a figura.  Isto nos dá liberdade para
 usar a função *repetidas vezes* e, além disso, *modificar* o gráfico que ela
 gerou antes de finalizar o trabalho. Esta flexibilidade é muito útil.
 
-Por exemplo, adiantando um pouco de SciPy, vamos criar uma função que gere
+Por exemplo, usando um pouco de SciPy, vamos criar uma função que gere
 gráficos das funções harmônicas esféricas, dependendo dos parâmetros
 inteiros `m` e `l` e da resolução desejada:
 
@@ -407,207 +604,48 @@ do pacote `graphicx`), com as vantagens de tornar o texto no gráfico
 pesquisável e a resolução tão grande quanto se queira, além de diminuir o
 tamanho do arquivo final. Esta opção é recomendável na maioria dos casos.
 
-Isto encerra nossa rápida discussão sobre matplotlib.
+Isto encerra o tutorial.
 
 ### Links úteis de matplotlib
 
-- [API da classe Axes](https://matplotlib.org/api/axes_api.html): descreve
-  tudo que há para saber sobre os ''pares de eixos'' com que lidamos hoje.
+- [Documentação completa do
+  matplotlib](https://matplotlib.org/api/index.html): é grande, contém muito
+  mais do que cobrimos aqui.
 - [Tutoriais oficiais do
-  matplotlib](https://matplotlib.org/tutorials/index.html): o melhor recurso
-  para aprender a biblioteca.
+  matplotlib](https://matplotlib.org/tutorials/index.html): **fortemente
+  recomendados**. Cobrem do básico ao avançado. O melhor recurso para aprender
+  `matplotlib`.
+- [Sumário do
+  pyplot](https://matplotlib.org/api/pyplot_summary.html): contém
+  todas as funções da interface `matplotlib.pyplot`.
+  - [API da classe Axes](https://matplotlib.org/api/axes_api.html): descreve
+  tudo que há para saber sobre os ''pares de eixos''.
 
-## Introdução ao SciPy
+## Exercícios
 
-### O que é SciPy?
+1. *Polinômios de Taylor*. Faça um gráfico da função $$\sin x$$ e de seus
+   primeiros polinômios de Taylor, $$P_1(x) = x$$, $$P_3(x) = x - x^3/6$$ e
+   $$P_5(x) = x - x^3/6 + x^5/120$$, no intervalo $$[-\pi, \pi]$$.
 
-O projeto [SciPy](https://www.scipy.org/) é uma coleção de bibliotecas
-Python open-source para matemática, ciência e engenharia, incluindo o NumPy
-e o matplotlib. Por outro lado, parte do projeto é a
-*biblioteca* `scipy`, que chamaremos apenas de SciPy. Ela contém como
-submódulos a maioria das ferramentas que se espera de um software para
-cientistas, incluindo funções especiais, integração, otimização,
-interpolação, transformadas de Fourier, processamento de sinais, álgebra
-linear, estatística e processamento de imagens. Veja [este
-link](https://docs.scipy.org/doc/scipy/reference/).
+1. Faça um gráfico das funções $$y = x$$, $$y = x^2$$, $$y = x^3$$ em escala
+   logarítmica usando a função `loglog`, no intervalo $$[1, 100]$$. (O
+   gráfico deve ter três retas.)
 
-### Ajustando parâmetros de curvas com `curve_fit`
+1. *Órbitas keplerianas*. Desenhe uma elipse com foco na origem, cuja
+   equação em coordenadas polares $$(r, \theta)$$ é dada por
 
-`curve_fit()` é uma função do módulo `scipy.optimize`. Ela recebe uma função
-e um conjunto de dados, e retorna os parâmetros da função que a ajustam
-melhor aos dados segundo o critério dos mínimos quadrados. Isto é, dada uma
-função $$f(x, \lambda)$$, na variável $$x$$ com parâmetro $$\lambda$$, e um
-conjunto de dados experimentais $$(x_j, y_j)$$, o `curve_fit()` encontra o
-parâmetro $$\lambda$$ tal que a soma
+   $$ r (e \cos \theta + 1) = \ell $$
 
-$$ \sum_j (y_j - f(x_j, \lambda))^2 $$
+   Aqui, $$0 \leq e < 1$$ é a excentricidade e $$\ell$$ é um parâmetro que
+   controla o tamanho da figura. (Dica: faça um array de valores $$\theta$$
+   entre 0 e $$2\pi$$, use a equação para obter um array correspondente de
+   valores $$r$$, e então plote $$x = r \cos \theta$$ e $$y = r \sin
+   \theta$$).
 
-é mínima. Isto também é chamado *regressão*.
+1. Repita o exercício acima usando a função `polar`.
 
-A chamada da função `curve_fit()` tem a forma típica:
-
-~~~ python
-curve_fit(func, dadosx, dadosy, p0, errosy)
-~~~
-`func()` é a função cujos parâmetros se deseja descobrir; ela recebe a
-variável primeiro e os parâmetros depois: `func(x, a, b, ...)`. `dadosx` e
-`dadosy` são sequências (arrays) de dados, onde x é a variável independente
-e y é dependente. `p0` é um palpite inicial para os valores dos parâmetros,
-e portanto é uma lista de tamanho igual ao número de parâmetros que a função
-recebe (não contando a variável dependente `x`). `errosy` é uma sequência
-*opcional* que indica os erros nas medidas da variável dependente. Supõe-se
-que os erros em x são desprezíveis (se isto não for verdade, há métodos mais
-complicados que podem lidar também com erros em x).
-
-Vejamos um caso simples. Como fazer a regressão de uma reta com o
-`curve_fit()`?
-
-Primeiro definimos a função `func` que será ajustada. Ela tem dois
-parâmetros: o coeficiente angular `a` e o coeficiente linear `b`:
-
-~~~ python
-def func(x, a, b):
-    return a*x + b
-~~~
-
-Agora, os dados. Vamos usar a seguinte tabela (`dados.dat`):
-
-~~~
-8e-3    1.403
-10e-3   1.378
-12e-3   1.344
-13e-3   1.338
-17e-3   1.280
-18e-3   1.282
-22e-3   1.232
-29e-3   1.142
-~~~
-
-Carregando como array do numpy:
-
-~~~ python
-x, y = np.loadtxt('dados.dat').T
-~~~
-
-Agora usamos a função `curve_fit`. Ela retorna uma lista de parâmetros e uma
-*matriz de covariância*. Vamos chamar a primeira de `params` e a segunda de
-`mcov`:
-
-~~~ python
-from scipy.optimize import curve_fit
-params, mcov = curve_fit(func, x, y)
-~~~
-
-Os elementos da diagonal de `mcov` são as variâncias de `a` e `b`, ou seja,
-o quadrado dos desvios-padrão, que identificamos como o erro associado aos
-parâmetros `a` e `b`:
-
-~~~ python
-a, b = params
-a_err, b_err = np.sqrt(np.diag(mcov))
-~~~
-
-Vamos graficar reta ajustada e os pontos da tabela para ver o que está
-acontecendo:
-
-~~~
-t = np.array([0, 0.04])
-plt.scatter(x, y)
-plt.plot(t, func(t, a, b))
-~~~
-
-![Ajuste de uma reta.](../img/oficina-scipy-2019/line-fit.png)
-
-Um excelente ajuste! Se quisermos os valores dos parâmetros:
-
-~~~ python
-print(a, a_err)
-print(b, b_err)
-~~~
-
-O que fizemos acima é absolutamente genérico e se aplica a qualquer tipo de
-função. Vamos a um exemplo mais complicado. A lei de Planck
-
-$$ B_\nu(\nu, T) = \frac{2h\nu^3}{c^2} \frac{1}{e^{\frac{h\nu}{kT}} - 1} $$
-
-dá o espectro de um corpo negro em função da frequência $$\nu$$ para uma
-determinada temperatura $$T$$. Vamos supor que, das constantes que aparecem
-na equação, apenas o valor de $$c$$ é conhecido, mas temos estimativas das
-ordens de grandeza de $$h$$ e $$k$$. Também conhecemos a temperatura $$T$$
-do experimento. Podemos determinar as constantes $$h$$ de Planck e $$k$$ de
-Boltzmann com um único ajuste de curva. Por exemplo, suponha que temos os
-seguintes dados experimentais salvos em `corponegro.dat`:
-
-~~~
-# T = 300 K
-# frequência, radiança espectral (unidades do SI)
-0.50e13   1.02e-12
-0.82e13   2.57e-12
-1.14e13   4.42e-12
-1.46e13   4.69e-12
-1.79e13   5.35e-12
-2.11e13   4.94e-12
-2.43e13   4.55e-12
-2.75e13   3.15e-12
-3.07e13   3.22e-12
-3.39e13   2.56e-12
-3.71e13   1.90e-12
-4.04e13   1.63e-12
-4.36e13   1.02e-12
-4.68e13   1.46e-12
-5.00e13   0.41e-12
-~~~
-
-Então:
-
-~~~ python
-# Define a função (lei de Planck)
-T, c = 300, 299792458
-def Bnu_corpo_negro(nu, h, k):
-    return 2*h*(nu**3/c**2) * (1 / (np.exp(h*nu/(k*T)) - 1))
-
-# Carrega os dados
-nu_dados, Bnu_dados = np.loadtxt('corponegro.dat').T
-
-# Faz o ajuste com as estimativas iniciais 1e-34 e 1e-23 para h e k
-params, mcov = curve_fit(Bnu_corpo_negro, nu_dados, Bnu_dados,
-                         [1e-34, 1e-23])
-h, k = params
-h_err, k_err = np.sqrt(np.diag(mcov))
-~~~
-
-Obtivemos os parâmetros $$h = (6.3 \pm 0.5) \times 10^{-34} J \cdot s$$ e
-$$k = (1.33 \pm 0.08) \times 10^{-23} J/K$$. Compare com os valores precisos
-$$6.63 \times 10^{-34}$$ e $$1.38 \times 10^{-23}$$ --- nada mau!.
-Finalmente, vamos graficar os dados e a curva ajustada:
-
-~~~ python
-plt.plot(nu_dados, Bnu_dados, 'o', label='Dados')
-nu = np.linspace(1, 5.5e13, 100)
-plt.plot(nu, Bnu_corpo_negro(nu, h, k), label='Ajuste')
-plt.legend()
-~~~
-
-![Radiação de corpo negro: curva ajustada e
-dados.](../img/oficina-scipy-2019/corpo-negro.png)
-
-O `curve_fit` funciona por aproximações sucessivas: em cada iteração, ele
-modifica um pouco os parâmetros para se aproximar do mínimo. Note que,
-tentando fazer o ajuste com estimativas iniciais ruins (por exemplo, 0 ou 1)
-o `curve_fit` não converge e não conseguimos a solução. É sempre bom ter uma
-estimativa inicial ao menos na ordem de grandeza correta.
-
-O módulo `scipy.optimize` também tem funções para cálculo de mínimos locais
-e globais e para encontrar raízes e soluções de sistemas de muitas
-variáveis. Consulte a documentação para saber mais.
-
-### Links úteis
-
-- [Documentação completa do `scipy`](https://docs.scipy.org/doc/scipy/reference/)
-- [Módulo
-  `scipy.optimize`](https://docs.scipy.org/doc/scipy/reference/tutorial/optimize.html)
-- [Documentação do
-  `curve_fit`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html#scipy.optimize.curve_fit)
+1. Exporte um gráfico como PDF e um como PNG. Mude o estilo de algum deles
+   para `'ggplot'`.
 
 ## Licença
 
