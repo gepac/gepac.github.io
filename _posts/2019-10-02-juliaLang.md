@@ -34,10 +34,10 @@ tags: [julia, curso]
 ![benchmark](https://julialang.org/images/benchmarks.svg)
 
 ## Tipagem
-#### Hierarquia tipo Number
+### Hierarquia tipo Number
 ![Hierarquia number](https://upload.wikimedia.org/wikipedia/commons/4/40/Type-hierarchy-for-julia-numbers.png)
 
-#### Tipagem dinâmica
+### Tipagem dinâmica
 ```julia
 # \pi + TAB = π
 A = [1, .1, 5.2, π]
@@ -61,14 +61,14 @@ for i in C
     println(typeof(i))
 end
 ```
-#### Tipagem estática
+### Tipagem estática
 ```julia
 D = Array{Integer, 1}([])
 push!(D, .2)
 push!(D, 2)
 push!(D, true)
 ```
-#### Tipos arbitrários BigInt e BigFloat
+### Tipos arbitrários BigInt e BigFloat
 ```julia
 factorial(50)
 factorial(BigInt(50))
@@ -77,7 +77,7 @@ BigFloat(π, 50000)
 ```
 ## Vetorização
 
-#### Índices em arrays
+### Índices em arrays
 Os índices em julia começa com 1, porém é muito fácil de mudar
 
 ```julia
@@ -91,7 +91,7 @@ coeficiente = OffsetVector(coeficiente, -1:end);
 coeficiente[-1]
 ```
 
-#### O `for` pode comer solto, com bom senso
+### O `for` pode comer solto, com bom senso
 ```julia
 function seno(x)
     y = []
