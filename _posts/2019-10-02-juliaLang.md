@@ -9,18 +9,18 @@ tags: [julia, curso]
 ## O que é Julia?
 - Linguagem de alto nível e de tipagem dinâmica;
 - Tem como proposito de atender a computação de alto desempenho numérico e científico;
-- Usa a estrutura do compilador LLVM para a JIT (just-in-time);
-- Começou a ser desenvolvida em 2009;
-- Tem inspirações em linguagens como LISP, Scheme, Matlab, python entre outras;
+- Usa a estrutura de compilação LLVM/JIT (just-in-time);
+- Começou a ser desenvolvida em 2009 no MIT;
+- Tem inspirações em linguagens como LISP, Scheme, Matlab, python, C++ entre outras;
 
 ## Por que usar Julia?
 
 - Bom desempenho comparável a C e FORTRAN;
 - Despacho múltiplo;
-- Projetado para computação paralela e distribuida;
+- Projetada para computação paralela e distribuida;
 - Não é necessário vetorizar o código para melhorar o desempenho;
 - A biblioteca padrão é escrita em julia;
-- Ecosistema 
+- Ecossistema mantido pela comunidade, que faz julia crescer ainda mais.
 
 ## Como usar?
 [Julia Download](https://julialang.org/downloads/)
@@ -35,6 +35,9 @@ tags: [julia, curso]
 
 ## Tipagem
 ### Hierarquia tipo Number
+
+- Tipos abstratos e primitivos
+
 ![Hierarquia number](https://upload.wikimedia.org/wikipedia/commons/4/40/Type-hierarchy-for-julia-numbers.png)
 
 ### Tipagem dinâmica
@@ -87,8 +90,17 @@ Pkg.add("OffsetArrays");
 using OffsetArrays
 
 coeficiente = rand(5);
-coeficiente = OffsetVector(coeficiente, -1:end);
+coeficiente = OffsetVector(coeficiente, -1:3);
 coeficiente[-1]
+```
+* Exemplo
+```julia
+using OffsetArrays
+
+coeficiente = OffsetVector([6, 5, -2, 3, 1], -1:3)
+polynomial(x, coeficiente) = sum(coeficiente[n]*x^n for n in eachindex(coeficiente))
+
+polynomial(2.0, coeficiente)
 ```
 
 ### O `for` pode comer solto, com bom senso
@@ -112,16 +124,24 @@ a = rand(5)
 ## Multiple Dispatch (Despacho múltiplo)
 
 ```julia
-function colide_com( x :: Asteroide, y :: Asteroide )
+struct Asteroide
+    # Tipo Asteroide
+end
+
+struct Espaconave
+    # Tipo Espaconave
+end
+
+function colide_com( x::Asteroide, y::Asteroide )
     # trata colisão Asteroide-Asteroide
 end
-function colide_com( x :: Asteroide, y :: Espaconave )
+function colide_com( x::Asteroide, y::Espaconave )
    # trata colisão Asteroide-Espaconave
 end
-function colide_com( x :: Espaconave, y :: Asteroide )
+function colide_com( x::Espaconave, y::Asteroide )
    # trata colisão Espaconave-Asteroide
 end
-function colide_com( x :: Espaconave, y :: Espaconave )
+function colide_com( x::Espaconave, y::Espaconave )
    # trata colisão Espaconave-Espaconavee
 end
 ```
