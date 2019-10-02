@@ -98,9 +98,9 @@ coeficiente[-1]
 using OffsetArrays
 
 coeficiente = OffsetVector([6, 5, -2, 3, 1], -1:3)
-polynomial(x, coeficiente) = sum(coeficiente[n]*x^n for n in eachindex(coeficiente))
+polinominal(x, coeficiente) = sum(coeficiente[n]*x^n for n in eachindex(coeficiente))
 
-polynomial(2.0, coeficiente)
+polinominal(2.0, coeficiente)
 ```
 
 ### O `for` pode comer solto, com bom senso
@@ -146,11 +146,22 @@ function colide_com( x::Espaconave, y::Espaconave )
 end
 ```
 
-## Metaprogramação e Macros
-- Símbolos
+## Metaprogramação: Expressões, Símbolos e Macros
+[Metaprogramação JuliaDocs](https://docs.julialang.org/en/v1/manual/metaprogramming/#Metaprogramming-1)
+
+- Expressões e Símbolos
 ```julia
-gepac = "Hello World!"
-:gepac
+# Criando uma expressão
+eq = :(a*x^2 + b*x + c)
+
+dump(eq)
+
+eq.head
+
+eq.args
+
+a=1;b=2;c=-3;x=5
+eval(eq)
 ```
 - Macros
 ```julia
@@ -172,3 +183,5 @@ a = rand(5);
 
 ## Julia Ecossistema
 [Ecossistema](https://julialang.org/ecosystems/)
+- [JuliaPhysics](https://juliaphysics.github.io/latest/index.html)
+    - [Simulação de dinâmica](https://nbviewer.jupyter.org/github/JuliaDynamics/JuliaDynamics/blob/master/tutorials/Billiards%20Example/billiards_example.ipynb)
