@@ -15,7 +15,7 @@ tags: [julia, curso]
 
 ## Por que usar Julia?
 
-- Bom desempenho comparável a C e FORTRAN;
+- Bom desempenho comparável a C e Fortran;
 - Despacho múltiplo;
 - Projetada para computação paralela e distribuida;
 - Não é necessário vetorizar o código para melhorar o desempenho;
@@ -132,17 +132,17 @@ struct Espaconave
     # Tipo Espaconave
 end
 
-function colide_com( x::Asteroide, y::Asteroide )
+function colide_com(x::Asteroide, y::Asteroide)
     # trata colisão Asteroide-Asteroide
 end
-function colide_com( x::Asteroide, y::Espaconave )
+function colide_com(x::Asteroide, y::Espaconave)
    # trata colisão Asteroide-Espaconave
 end
-function colide_com( x::Espaconave, y::Asteroide )
+function colide_com(x::Espaconave, y::Asteroide)
    # trata colisão Espaconave-Asteroide
 end
-function colide_com( x::Espaconave, y::Espaconave )
-   # trata colisão Espaconave-Espaconavee
+function colide_com(x::Espaconave, y::Espaconave)
+   # trata colisão Espaconave-Espaconave
 end
 ```
 
