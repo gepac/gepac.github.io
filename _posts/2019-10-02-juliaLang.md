@@ -4,6 +4,7 @@ title: "Quem é Julia?"
 excerpt: Apresentar a linguagem Julia, que vem crescendo rapidamente no meio científico.
 tags: [julia, curso]
 ---
+
 [![Linguagem Julia](https://github.com/JuliaLang/julia-logo-graphics/blob/master/images/julia-logo-color.png?raw=true)](https://julialang.org)
 
 ## O que é Julia?
@@ -28,6 +29,8 @@ tags: [julia, curso]
 [JuliaBox](https://www.juliabox.com)
 
 [Documentação](https://docs.julialang.org/en/v1/)
+
+[CheatSheets Quantecon](https://cheatsheets.quantecon.org/)
 
 ## Desempenho
 [Julia Micro-Benchmarks](https://julialang.org/benchmarks/)
