@@ -16,11 +16,11 @@ tags: [julia, curso]
 
 ## Por que usar Julia?
 
-- Bom desempenho comparável a C e Fortran;
+- Bom desempenho comparável a C, C++ e Fortran;
 - Despacho múltiplo;
-- Projetada para computação paralela e distribuida;
+- Projetada para computação paralela e distribuída;
 - Não é necessário vetorizar o código para melhorar o desempenho;
-- A biblioteca padrão é escrita em julia;
+- A biblioteca padrão é escrita majoritariamente em julia;
 - Ecossistema mantido pela comunidade, que faz julia crescer ainda mais.
 
 ## Como usar?
@@ -37,7 +37,7 @@ tags: [julia, curso]
 ![benchmark](https://julialang.org/images/benchmarks.svg)
 
 ## Tipagem
-### Hierarquia tipo Number
+### Hierarquia do tipo Number
 
 - Tipos abstratos e primitivos
 
@@ -84,7 +84,7 @@ BigFloat(π, 50000)
 ## Vetorização
 
 ### Índices em arrays
-Os índices em julia começa com 1, porém é muito fácil de mudar
+Os índices em julia começa com 1, porém, é muito fácil de mudar
 
 ```julia
 using Pkg;
@@ -101,9 +101,9 @@ coeficiente[-1]
 using OffsetArrays
 
 coeficiente = OffsetVector([6, 5, -2, 3, 1], -1:3)
-polinominal(x, coeficiente) = sum(coeficiente[n]*x^n for n in eachindex(coeficiente))
+polinomio(x, coeficiente) = sum(coeficiente[n]*x^n for n in eachindex(coeficiente))
 
-polinominal(2.0, coeficiente)
+polinomio(2.0, coeficiente)
 ```
 
 ### O `for` pode comer solto, com bom senso
