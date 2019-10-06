@@ -81,7 +81,7 @@ factorial(BigInt(50))
 
 BigFloat(π, 50000)
 ```
-## Vetorização
+## Array e Vetorização
 
 ### Índices em arrays
 Os índices em julia começa com 1, porém, é muito fácil de mudar
