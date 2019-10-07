@@ -122,7 +122,14 @@ a = rand(5)
 @time sin.(a);
 @assert seno(a)==sin.(a)
 ```
+### Vetorização `dot operator`
+```julia
+x = rand(5);
 
+sin(x)
+sin.(x)
+@. sin(x)
+```
 
 ## Multiple Dispatch (Despacho múltiplo)
 
