@@ -195,3 +195,35 @@ a = rand(5);
 [Ecossistema](https://julialang.org/ecosystems/)
 - [JuliaPhysics](https://juliaphysics.github.io/latest/index.html)
     - [Simulação de dinâmica](https://nbviewer.jupyter.org/github/JuliaDynamics/JuliaDynamics/blob/master/tutorials/Billiards%20Example/billiards_example.ipynb)
+
+## Finalizando
+Exemplo de como definir álgebra geométrica em Julia
+```julia
+# importando pacotes
+import LinearAlgebra
+import Base.+, Base.-
+
+# Criando o tipo multivetor
+struct MultiVector{T<:Number}
+    vetor::Array{T,1}
+    escalar::T
+end
+
+# Criando o operador de produto geométrico
+∘(x::Array{T,1}, y::Array{T,1}) where {T<:Number} = MultiVector(LinearAlgebra.cross(x,y)
+                                                                , LinearAlgebra.dot(x,y))
+# Sobrecarga dos operadores + e -
++(x::MultiVector, y::MultiVector) = MultiVector(x.vetor+y.vetor, x.escalar+y.escalar)
+-(x::MultiVector, y::MultiVector) = MultiVector(x.vetor-y.vetor, x.escalar-y.escalar)
+
+# Testando as operações
+a = rand(3)
+b = rand(3)
+
+c = ∘(a,b)
+println(c)
+c = a∘b
+println(c)
+println(c+c)
+println(c-c)
+```
