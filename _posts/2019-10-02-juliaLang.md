@@ -201,7 +201,7 @@ Exemplo de como definir álgebra geométrica em Julia
 ```julia
 # importando pacotes
 import LinearAlgebra
-import Base.+, Base.-
+import Base: +, -
 
 # Criando o tipo multivetor
 struct MultiVector{T<:Number}
