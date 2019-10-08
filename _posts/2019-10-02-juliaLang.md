@@ -81,7 +81,7 @@ factorial(BigInt(50))
 
 BigFloat(π, 50000)
 ```
-## Array e Vetorização
+## Arrays
 
 ### Índices em arrays
 Os índices em julia começa com 1, porém, é muito fácil de mudar
@@ -106,8 +106,12 @@ polinomio(x, coeficiente) = sum(coeficiente[n]*x^n for n in eachindex(coeficient
 polinomio(2.0, coeficiente)
 ```
 
-### O `for` pode comer solto, com bom senso
+### Operador `dot`
 ```julia
+x = rand(5);
+
+sin(x)
+
 function seno(x)
     y = []
     for i in x
@@ -116,19 +120,11 @@ function seno(x)
     return y
 end
 
-a = rand(5)
-
-@time seno(a);
-@time sin.(a);
-@assert seno(a)==sin.(a)
-```
-### Vetorização `dot operator`
-```julia
 x = rand(5);
 
-sin(x)
-sin.(x)
-@. sin(x)
+@time seno(x);
+@time sin.(x);
+@time @. sin(x);
 ```
 
 ## Multiple Dispatch (Despacho múltiplo)
