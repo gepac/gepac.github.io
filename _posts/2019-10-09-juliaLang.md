@@ -44,13 +44,16 @@ tags: [julia, curso]
 ![Hierarquia number](https://upload.wikimedia.org/wikipedia/commons/4/40/Type-hierarchy-for-julia-numbers.png)
 
 ### Tipagem dinâmica
+
 ```julia
 # \pi + TAB = π
 A = [1, .1, 5.2, π]
 ```
+
 ```julia
 B = [1, 2, 3, 4]
 ```
+
 ```julia
 C = []
 push!(C, "Hello World");
@@ -67,24 +70,30 @@ for i in C
     println(typeof(i))
 end
 ```
+
 ### Tipagem estática
+
 ```julia
 D = Array{Integer, 1}([])
 push!(D, .2)
 push!(D, 2)
 push!(D, true)
 ```
+
 ### Tipos arbitrários BigInt e BigFloat
+
 ```julia
 factorial(50)
 factorial(BigInt(50))
 
 BigFloat(π, 50000)
 ```
+
 ## Arrays
 
 ### Índices em arrays
 Os índices em julia começam com 1, porém, é muito fácil de mudar:
+
 ```julia
 lista = rand(10);
 
@@ -102,7 +111,9 @@ coeficiente = rand(5);
 coeficiente = OffsetVector(coeficiente, -2:2);
 coeficiente[-2]
 ```
-* Exemplo:
+
+- Exemplo usando índices e função:
+
 ```julia
 coeficiente = OffsetVector([6, 5, -2, 3, 1], -1:3)
 polinomio(x, coeficiente) = sum(coeficiente[n]*x^n for n in eachindex(coeficiente))
@@ -111,6 +122,8 @@ polinomio(2.0, coeficiente)
 ```
 
 ### Operador `dot`
+
+
 ```julia
 x = rand(5);
 
@@ -160,6 +173,7 @@ end
 [Metaprogramação JuliaDocs](https://docs.julialang.org/en/v1/manual/metaprogramming/#Metaprogramming-1)
 
 - Expressões e Símbolos
+
 ```julia
 # Criando uma expressão
 eq = :(a*x^2 + b*x + c)
@@ -173,7 +187,9 @@ eq.args
 a=1;b=2;c=-3;x=5
 eval(eq)
 ```
+
 - Macros
+
 ```julia
 macro time2(ex)
     return quote
@@ -197,7 +213,8 @@ a = rand(5);
     - [Simulação de dinâmica](https://nbviewer.jupyter.org/github/JuliaDynamics/JuliaDynamics/blob/master/tutorials/Billiards%20Example/billiards_example.ipynb)
 
 ## Finalizando
-Exemplo de como definir álgebra geométrica em Julia
+Exemplo de como definir álgebra geométrica em Julia:
+
 ```julia
 # importando pacotes
 import LinearAlgebra
