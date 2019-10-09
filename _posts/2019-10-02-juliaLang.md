@@ -84,7 +84,13 @@ BigFloat(π, 50000)
 ## Arrays
 
 ### Índices em arrays
-Os índices em julia começa com 1, porém, é muito fácil de mudar
+Os índices em julia começam com 1, porém, é muito fácil de mudar:
+```julia
+lista = rand(10);
+
+lista[1]
+lista[end]
+```
 
 ```julia
 using Pkg;
@@ -93,13 +99,11 @@ Pkg.add("OffsetArrays");
 using OffsetArrays
 
 coeficiente = rand(5);
-coeficiente = OffsetVector(coeficiente, -1:3);
-coeficiente[-1]
+coeficiente = OffsetVector(coeficiente, -2:2);
+coeficiente[-2]
 ```
-* Exemplo
+* Exemplo:
 ```julia
-using OffsetArrays
-
 coeficiente = OffsetVector([6, 5, -2, 3, 1], -1:3)
 polinomio(x, coeficiente) = sum(coeficiente[n]*x^n for n in eachindex(coeficiente))
 
