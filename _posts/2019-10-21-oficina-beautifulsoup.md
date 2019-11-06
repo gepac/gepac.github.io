@@ -1,5 +1,5 @@
 ---
-title: "Introdução a Web Scraping com BeutifulSoup"
+title: "Introdução a Web Scraping com BeautifulSoup"
 layout: post
 excerpt: >-
     Nesta oficina será apresentado o conceito de WebScraping com o uso da biblioteca BeautifulSoup.
