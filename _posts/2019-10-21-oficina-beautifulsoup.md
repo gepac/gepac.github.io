@@ -71,52 +71,85 @@ print(soup.prettify()) # Mostra o conteúdo da página baixada com sua identaç�
 
 Depois que você criou o objeto BeautifulSoup, você consegue navegar no arquivo facilmente. 
 
+## Navegação e Pesquisa
 
 ~~~ python
+soup.div
+soup.find('tag') 
+soup.find('tag', id='id') 
+soup.findAll('tag') # Retorna uma lista com todos os elementos com a tag 'tag'
+soup.findAll('tag', limit=5) # Retorna uma lista com 5 elementos com a tag 'tag'
+~~~
 
+### Outros tipos de navegação
+
+~~~ python
+# Busca os elemento posteriores e anteriores
+soup.findNext()
+soup.findPrevious()
+soup.findAllNext()
+
+
+# Busca de baixo para cima
+soup.find_parent()
+soup.find_parents()
+
+# Encontra outros elementos no mesmo nível que o elemento atual
+soup.findNextSibling()
+soup.findPreviousSibling()
+
+soup.findNextSiblings()
+soup.findPreviousSiblings()
+
+~~~
+
+## Acessando atributos do elemento
+
+~~~ python
+tag.getText()
+tag.get_text()
+tag.attrs.keys() # Retorna lista de atributos da tag
+
+# Acessando o conteúdo do atributo
+tag['class'] 
+tag.get('class')
+~~~
+
+
+## Exemplo de utilização
+
+~~~ python
+from bs4 import BeautifulSoup
+import requests
+
+# Fazendo request da página
+url = 'http://www.iftm.edu.br/patrocinio/cursos/tecnico-integrado-presencial/eletronica/corpo-docente/'
+
+html = requests.get(url)
+soup = BeautifulSoup(html.content, 'html.parser')
+
+# Buscando e Armazenando dados da página
+
+dados = []
+titulo = ''
+for i in range(len(soup.findAll('h2'))): # Localizando o título 'Corpo docente'
+  if 'Corpo docente' in soup.findAll('h2')[i]:
+    titulo = soup.findAll('h2')[i]
+
+for e in titulo.findNextSiblings(): # Encontra irmãos do título
+  dados.append(e.get_text()) # Coleta o conteúdo dos elementos irmãos
+
+for i in range(len(dados)):
+  dados[i] = dados[i].replace('\n', '') 
 
 ~~~
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ### Links úteis
 
-- [Documentação completa do `scipy`](https://docs.scipy.org/doc/scipy/reference/)
-- [Módulo
-  `scipy.optimize`](https://docs.scipy.org/doc/scipy/reference/tutorial/optimize.html)
-- [Documentação do
-  `curve_fit`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html#scipy.optimize.curve_fit)
+- [Documentação completa da biblioteca `BeautifulSoup`](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
+
 
 ## Licença
 
