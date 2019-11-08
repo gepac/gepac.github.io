@@ -1,5 +1,5 @@
 ---
-title: "Introdução a Web Scraping com BeutifulSoup"
+title: "Introdução a Web Scraping com BeautifulSoup"
 layout: post
 excerpt: >-
     Nesta oficina será apresentado o conceito de WebScraping com o uso da biblioteca BeautifulSoup.
@@ -131,10 +131,7 @@ soup = BeautifulSoup(html.content, 'html.parser')
 # Buscando e Armazenando dados da página
 
 dados = []
-titulo = ''
-for i in range(len(soup.findAll('h2'))): # Localizando o título 'Corpo docente'
-  if 'Corpo docente' in soup.findAll('h2')[i]:
-    titulo = soup.findAll('h2')[i]
+titulo = soup.findAll('h2')[3] # Buscando elemento h2 cujo conteúdo é Corpo Docente
 
 for e in titulo.findNextSiblings(): # Encontra irmãos do título
   dados.append(e.get_text()) # Coleta o conteúdo dos elementos irmãos
