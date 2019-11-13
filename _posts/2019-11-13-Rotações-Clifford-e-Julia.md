@@ -1,10 +1,9 @@
-
-
 ---
 title: "Rotações Clifford e Julia"
 layout: post
+excerpt: >-
+    Palestra do dia 13/11/2019 sobre rotações do ponto de vista das Álgebras de Clifford com implementação em Julia.
 tags: [julia,clifford,algebras,gepac,rotor]
-
 ---
 
 # Introdução
@@ -24,19 +23,25 @@ Com isso podemos introduzir a Álgebra de Clifford do $$\mathbb{R^n}$$.
 ### A álgebra $\mathbb{Cl}_2$
 
 Seja uma base ortonormal b = $$\{e_1,e_2\}$$ do $$\mathbb{R}^2$$. Aplicando o produto geométrico nessa base, podemos gerar o bivetor $$e_1e_2=-e_2e_1$$. Vamos calcular o quadrado desse bivetor:
+
 $$
 (e_1e_2)^2 = e_1e_2e_1e_2\\
 (e_1e_2)^2 = -e_1e_1e_2e_2
 $$
+
 Como os vetores são ortonormais, podemos inverter a ordem dos vetores, desde que troquemos o sinal. Além disso:
+
 $$
 e_1e_1 = e_1\wedge e_1 = 1
 $$
+
 Isto é,
+
 $$
 (e_1e_2)^2=-1
 $$
-Com isso, temos uma estrutura análoga ao $\mathbb{C}$. 
+
+Com isso, temos uma estrutura análoga ao $$\mathbb{C}$$. 
 
 ### Rotações em 2D
 
