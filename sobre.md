@@ -31,7 +31,7 @@ Atualmente, o grupo é administrado pelos seguintes membros:
 	<div class="media frescurinhas">
 		<div class="pull-right ">
 			<a href="{{ manolo.link | default: "#" }}">
-				<img class="media-object img-circle" src="/pessoas/{{ manolo.photo | default: "ninguem.jpg" }}" alt="{{ manolo.name | append: " é supimpa :)" }}">
+				<img class="media-object img-circle fotinha" src="/pessoas/{{ manolo.photo | default: "ninguem.jpg" }}" alt="{{ manolo.name | append: " é supimpa :)" }}">
 			</a>
 		</div>
 		<div class="media-body">

@@ -26,3 +26,8 @@
 .frescurinhas:hover p {
 	text-shadow: 1px 1px 2.5px grey;
 }
+
+.fotinha {
+	width: 6rem;
+	height: 6rem;
+}
