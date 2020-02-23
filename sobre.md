@@ -28,37 +28,86 @@ Atualmente, o grupo é administrado pelos seguintes membros:
 <div class="row">
 <div class="col-md-6 col-sm-6">
 {% for manolo in site.pessoas limit:metade %}
-	<div class="media frescurinhas">
-		<div class="pull-right ">
-			<a href="{{ manolo.link | default: "#" }}">
-				<img class="media-object img-circle fotinha" src="/pessoas/{{ manolo.photo | default: "ninguem.jpg" }}" alt="{{ manolo.name | append: " é supimpa :)" }}">
-			</a>
-		</div>
-		<div class="media-body">
-			<h4 class="media-heading">{{ manolo.name }}</h4>
-			<div style="margin-top: -1.5em">
-				{{ manolo.content | markdownify }}
+	{% if manolo.aposentado == false %}
+		<div class="media frescurinhas">
+			<div class="pull-right ">
+				<a href="{{ manolo.link | default: "#" }}">
+					<img class="media-object img-circle fotinha" src="/pessoas/{{ manolo.photo | default: "ninguem.jpg" }}" alt="{{ manolo.name | append: " é supimpa :)" }}">
+				</a>
+			</div>
+			<div class="media-body">
+				<h4 class="media-heading">{{ manolo.name }}</h4>
+				<div style="margin-top: -1.5em">
+					{{ manolo.content | markdownify }}
+				</div>
 			</div>
 		</div>
-	</div>
+	{% endif %}
 {% endfor %}
 </div>
 
 <div class="col-md-6 col-sm-6">
 {%- for manolo in site.pessoas offset:metade -%}
-	<div class="media frescurinhas">
-		<div class="pull-left">
-			<a href="{{ manolo.link | default: "#" }}">
-				<img class="media-object img-circle" src="/pessoas/{{ manolo.photo | default: "ninguem.jpg" }}" alt="{{ manolo.name | append: " é supimpa :)" }}">
-			</a>
-		</div>
-		<div class="media-body">
-			<h4 class="media-heading">{{ manolo.name }}</h4>
-			<div style="margin-top: -1.5em">
-				{{ manolo.content | markdownify }}
+	{% if manolo.aposentado == false %}
+		<div class="media frescurinhas">
+			<div class="pull-left">
+				<a href="{{ manolo.link | default: "#" }}">
+					<img class="media-object img-circle" src="/pessoas/{{ manolo.photo | default: "ninguem.jpg" }}" alt="{{ manolo.name | append: " é supimpa :)" }}">
+				</a>
+			</div>
+			<div class="media-body">
+				<h4 class="media-heading">{{ manolo.name }}</h4>
+				<div style="margin-top: -1.5em">
+					{{ manolo.content | markdownify }}
+				</div>
 			</div>
 		</div>
-	</div>
+	{% endif %}
+{%- endfor -%}
+</div>
+</div>
+
+---
+### Membros aposentados
+
+<div class="row">
+<div class="col-md-6 col-sm-6">
+{% for manolo in site.pessoas limit:metade %}
+	{% if manolo.aposentado == true %}
+		<div class="media frescurinhas">
+			<div class="pull-right ">
+				<a href="{{ manolo.link | defeult: "#" }}">
+					<img class="media-object img-circle fotinha" src="/pessoas/{{ manolo.photo | default: "ninguem.jpg" }}" alt="{{ manolo.name | append: " é supimpa :)" }}">
+				</a>
+			</div>
+			<div class="media-body">
+				<h4 class="media-heading">{{ manolo.name }}</h4>
+				<div style="margin-top: -1.5em">
+					{{ manolo.content | markdownify }}
+				</div>
+			</div>
+		</div>
+	{% endif %}
+{% endfor %}
+</div>
+
+<div class="col-md-6 col-sm-6">
+{%- for manolo in site.pessoas offset:metade -%}
+	{% if manolo.aposentado == true %}
+		<div class="media frescurinhas">
+			<div class="pull-left">
+				<a href="{{ manolo.link | default: "#" }}">
+					<img class="media-object img-circle" src="/pessoas/{{ manolo.photo | default: "ninguem.jpg" }}" alt="{{ manolo.name | append: " é supimpa :)" }}">
+				</a>
+			</div>
+			<div class="media-body">
+				<h4 class="media-heading">{{ manolo.name }}</h4>
+				<div style="margin-top: -1.5em">
+					<b>{{ manolo.periodo }}</b>
+				</div>
+			</div>
+		</div>
+	{% endif %}
 {%- endfor -%}
 </div>
 </div>
