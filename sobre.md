@@ -37,6 +37,10 @@ Atualmente, o grupo é administrado pelos seguintes membros:
 			</div>
 			<div class="media-body">
 				<h4 class="media-heading">{{ manolo.name }}</h4>
+				{% if manolo.fundador == true %}
+					<span style="color: red; font-size: 0.8em; position: relative">FUNDADOR</span>
+					<img class="media-object" style="width: 1.5em; height: 1.5em; float: right" src="/img/medalha.png">
+				{% endif %}
 				<div style="margin-top: -1.5em">
 					{{ manolo.content | markdownify }}
 				</div>
@@ -52,11 +56,15 @@ Atualmente, o grupo é administrado pelos seguintes membros:
 		<div class="media frescurinhas">
 			<div class="pull-left">
 				<a href="{{ manolo.link | default: "#" }}">
-					<img class="media-object img-circle" src="/pessoas/{{ manolo.photo | default: "ninguem.jpg" }}" alt="{{ manolo.name | append: " é supimpa :)" }}">
+					<img class="media-object img-circle fotinha" src="/pessoas/{{ manolo.photo | default: "ninguem.jpg" }}" alt="{{ manolo.name | append: " é supimpa :)" }}">
 				</a>
 			</div>
 			<div class="media-body">
 				<h4 class="media-heading">{{ manolo.name }}</h4>
+				{% if manolo.fundador == true %}
+					<span style="color: red; font-size: 0.8em; position: relative">FUNDADOR</span>
+					<img class="media-object" style="width: 1.5em; height: 1.5em; float: right" src="/img/medalha.png">
+				{% endif %}
 				<div style="margin-top: -1.5em">
 					{{ manolo.content | markdownify }}
 				</div>
@@ -68,8 +76,8 @@ Atualmente, o grupo é administrado pelos seguintes membros:
 </div>
 
 ---
-### Membros aposentados
-
+## Membros aposentados
+<br>
 <div class="row">
 <div class="col-md-6 col-sm-6">
 {% for manolo in site.pessoas limit:metade %}
@@ -82,8 +90,12 @@ Atualmente, o grupo é administrado pelos seguintes membros:
 			</div>
 			<div class="media-body">
 				<h4 class="media-heading">{{ manolo.name }}</h4>
+				{% if manolo.fundador == true %}
+					<span style="color: red; font-size: 0.8em; position: relative">FUNDADOR</span>
+					<img class="media-object" style="width: 1.5em; height: 1.5em; float: right" src="/img/medalha.png">
+				{% endif %}
 				<div style="margin-top: -1.5em">
-					{{ manolo.content | markdownify }}
+					<b>{{ manolo.periodo | markdownify }}</b>
 				</div>
 			</div>
 		</div>
@@ -97,13 +109,17 @@ Atualmente, o grupo é administrado pelos seguintes membros:
 		<div class="media frescurinhas">
 			<div class="pull-left">
 				<a href="{{ manolo.link | default: "#" }}">
-					<img class="media-object img-circle" src="/pessoas/{{ manolo.photo | default: "ninguem.jpg" }}" alt="{{ manolo.name | append: " é supimpa :)" }}">
+					<img class="media-object img-circle fotinha" src="/pessoas/{{ manolo.photo | default: "ninguem.jpg" }}" alt="{{ manolo.name | append: " é supimpa :)" }}">
 				</a>
 			</div>
 			<div class="media-body">
 				<h4 class="media-heading">{{ manolo.name }}</h4>
+				{% if manolo.fundador == true %}
+					<span style="color: red; font-size: 0.8em; position: relative">FUNDADOR</span>
+					<img class="media-object" style="width: 1.5em; height: 1.5em; float: right" src="/img/medalha.png">
+				{% endif %}
 				<div style="margin-top: -1.5em">
-					<b>{{ manolo.periodo }}</b>
+					<b>{{ manolo.periodo | markdownify }}</b>
 				</div>
 			</div>
 		</div>

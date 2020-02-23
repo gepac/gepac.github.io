@@ -6,10 +6,6 @@
 	transition: width .666s;
 }
 
-.frescurinhas:hover img {
-	width: 4em;
-}
-
 .frescurinhas h4 {
 	color: #404040;
 	transition: color .666s;
