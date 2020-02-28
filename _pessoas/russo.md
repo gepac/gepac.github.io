@@ -4,4 +4,4 @@ photo: "russinho.jpg"
 link: "mailto:lf.santos@usp.br"
 ---
 
-Não sou da fiscomp mas gosto de fis e comp. Também gosto de café. Não pense nO Jogo.
+Ex estudante de física agora se aventurando no BCC. Também gosto de café. Não pense nO Jogo.
